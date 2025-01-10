@@ -7,7 +7,7 @@ import "./Post.css";
 function Post( { post, friends } ) {
   return (
     <div>
-        <Card className="post-card" sx={{ maxWidth: 400 }}>
+        <Card className="post-card">
             <CardActionArea>
             <CardContent>
                 <div className="chip-box">
