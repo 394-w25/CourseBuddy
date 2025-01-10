@@ -14,7 +14,7 @@ const fake_post = {
     rating: "5",
     professor: "Prof. Riesbeck",
     date: "January 10th, 2024", // use JS object to retrieve the date posted
-}
+};
 
 const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
