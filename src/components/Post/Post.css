@@ -1,0 +1,24 @@
+.post-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-subheader {
+    display: flex;
+    flex-direction: column;
+    float: left;
+}
+
+.user-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.friends-avatar {
+    justify-content: center;
+    display: flex;
+    gap: 8px;
+}

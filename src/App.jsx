@@ -1,43 +1,28 @@
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Post from './components/Post/Post';
 
 const App = () => {
   const [count, setCount] = useState(0);
 
+  const fake_post = {
+    id: 1, // automatically assigned
+    title: "I LOVE CS394",
+    course_name: "CS 394",
+    user_name: "bob", // no need to fill this out in the submission form
+    quarter: "Fall 2024",
+    comment: "I had such an amazing time taking CS394. Highly recommend!",
+    rating: "5/5",
+    professor: "Chris Riesbeck",
+    date: "January 10th, 2024", // use JS object to retrieve the date posted
+  }
+  
+  const fake_friends = ["Alice", "Bob", "Charlie", "David"];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button onClick={() => setCount(count => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test hot module replacement (HMR).
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Post post={fake_post} friends={fake_friends}/>
     </div>
   );
 };
