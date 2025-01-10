@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Post from '../Post/Post';
 import { Container } from '@mui/material';
 import "./Feed.css";
+// import { db } from '../../firebase';
 
 const fake_post = {
     id: 1, // automatically assigned
