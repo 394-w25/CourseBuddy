@@ -17,15 +17,40 @@ function Submission() {
     const titleRef = useRef();
     const courseRef = useRef();
     const quarterRef = useRef();
+    const bodyRef = useRef();
+    const ratingRef = useRef();
     const professorRef = useRef();
     // now we can attach these references to the text boxes.
 
 
     // Source: React Handler. https://react.dev/learn/responding-to-events
-    function handleSubmit() {
-        // Source: how to access current value of ref. https://react.dev/learn/referencing-values-with-refs
-        // This function is called to retrieve the review fields when we click the 'Post' button
-        
+    async function handleSubmit() {
+        try {
+            // Source: how to access current value of ref. https://react.dev/learn/referencing-values-with-refs
+            // This function is called to retrieve the review fields when we click the 'Post' button
+            const title_value = titleRef.current;
+            const course_value = courseRef.current;
+            const quarter_value = quarterRef.current;
+            const body_value = bodyRef.current;
+            const rating_value = ratingRef.current;
+            const professor_value = professorRef.current;
+
+            // now we need to push to Firebase
+            const docRef = await addDoc(collection(db, "reviews"), {
+                title: title_value,
+                course: course_value,
+                quarter: quarter_value,
+                body: body_value,
+                rating: rating_value,
+                professor: professor_value,
+                date: new Date() // retrieves the current date. Will have to reformat for readability when pulling this data
+                
+                // name: "Tokyo",
+                // country: "Japan"
+            });
+        } catch (e) {
+            console.error("error:", e);
+        }
     }
     return (
         // Here's how to add the references to the textfields: https://stackoverflow.com/questions/59647940/how-can-i-use-ref-in-textfield
@@ -35,23 +60,16 @@ function Submission() {
         <TextField inputRef={quarterRef} id="outlined-basic" label="Quarter" variant="outlined" />
         <TextField inputRef={professorRef} id="outlined-basic" label="Professor" variant="outlined" />
         <TextField 
+          inputRef={bodyRef}
           id="outlined-multiline-flexible"
           label="Comment"
           multiline
           maxRows={6}
         />
-        <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
+        <Rating inputRef={ratingRef} name="half-rating" defaultValue={2.5} precision={0.5} />
         <Button onClick={handleSubmit} variant="text">Post</Button>
       </div>
     )
   };
-
-  // will need to make this a function that is called when we click the 'Post' button
-  const docRef = await addDoc(collection(db, "reviews"), {
-    // title: 
-    
-    // name: "Tokyo",
-    // country: "Japan"
-  });
   
   export default Submission;

@@ -1,8 +1,7 @@
 .post-header {
+    margin-top: 5% ;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 }
 
 .post-subheader {
@@ -21,4 +20,29 @@
     justify-content: center;
     display: flex;
     gap: 8px;
+}
+
+.description-and-star {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.star-text {
+    position: absolute !important; 
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+}
+
+.chip-box {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.post-card {
+    background-color: #d2d2d2 !important;
 }

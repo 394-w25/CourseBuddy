@@ -9,12 +9,12 @@ const App = () => {
   const fake_post = {
     id: 1, // automatically assigned
     title: "I LOVE CS394",
-    course_name: "CS 394",
-    user_name: "bob", // no need to fill this out in the submission form
+    course_name: "COMP_SCI 394",
+    username: "john12nu", // no need to fill this out in the submission form
     quarter: "Fall 2024",
-    comment: "I had such an amazing time taking CS394. Highly recommend!",
-    rating: "5/5",
-    professor: "Chris Riesbeck",
+    body: "I had such an amazing time taking CS394. Highly recommend!",
+    rating: "5",
+    professor: "Professor Riesbeck",
     date: "January 10th, 2024", // use JS object to retrieve the date posted
   }
   
