@@ -1,15 +1,26 @@
 import { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Post from './components/Post/Post';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Feed from './components/Feed/Feed';
-import './firebase';
+import SignIn from './components/SignIn/SignIn';
 
 const App = () => {
+  // react hook to keep track of the user's authentication status
+  const [user, setUser] = useState(null);
+
   return (
-    <div className="App">
-      <Feed />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignIn setUser={setUser}/>} />
+        {/* logic to protect malicious people from seeing feed without logging in */}
+        <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 };
 

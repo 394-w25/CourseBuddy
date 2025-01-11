@@ -1,7 +1,9 @@
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore"; 
+import { get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD-krnRmbEFVtEXdM4wSwFVezwPxHfx2Nw",
@@ -17,9 +19,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+const provider = new GoogleAuthProvider();
+
 export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
-
+export const auth = getAuth(app);
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 // Example query code:
 // const querySnapshot = await getDocs(collection(db, "posts"));
