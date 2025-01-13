@@ -16,9 +16,13 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignIn setUser={setUser}/>} />
+        {/* comment the following line during development */}
+        {/* <Route path="/" element={<SignIn setUser={setUser}/>} /> */}
+        {/* uncomment the following line during development */}
+        <Route path="/" element={<Feed />} />
+        {/* comment the following line during development */}
         {/* logic to protect malicious people from seeing feed without logging in */}
-        <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
+        {/* <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} /> */}
       </Routes>
     </Router>
   );

@@ -21,7 +21,7 @@ function Post( { post, friends } ) {
                     </Typography>
                     
                     <Typography variant="body2" align="left" sx={{ color: 'text.secondary'}}>
-                        Posted by <b>{post.username}</b> on {post.date}
+                        Posted by <b>{post.username}</b> on {post.date.toDate().toDateString()}
                     </Typography>
                 </div>
                 <div className="description-and-star">
