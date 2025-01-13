@@ -28,6 +28,8 @@ const App = () => {
         {/* logic to protect from seeing feed without logging in */}
         <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
 
+
+        {/* <Route path="/submission" element={<Submission />} /> */}
         <Route path="/submission" element={user ? <Submission /> : <Navigate to="/" />} />
 
         <Route path="/account" element={user ? <Account /> : <Navigate to="/" />} />
