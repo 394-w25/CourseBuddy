@@ -40,3 +40,8 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+.app-background {
+  background: lightblue;
+  height: 100%;
+}

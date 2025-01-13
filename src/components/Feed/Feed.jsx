@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Post from '../Post/Post';
-import { Container } from '@mui/material';
-import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import PublishIcon from '@mui/icons-material/Publish';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NavigationBar from '../NavigationBar/NavigationBar';
+import { Container, Box, Stack } from '@mui/material';
 import { collection, getDocs } from "firebase/firestore"; 
-import "./Feed.css";
-import { useNavigate } from "react-router-dom";
 import {db} from "../../utilities/firebase";
-import { set } from 'firebase/database';
+import "./Feed.css";
 
 const fake_post = {
     id: 1, // automatically assigned
@@ -38,9 +31,7 @@ async function getPostsFromDB() {
 const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
 function Feed() {
-  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [value, setValue] = useState(0);
   // useEffect runs every time the component is rendered
   useEffect(() => {
     // wait for all posts from database to be fetched
@@ -57,39 +48,21 @@ function Feed() {
 
   return (
     <div>
-        <Container className="feed-screen" maxWidth="sm">
-          { posts.length === 0 ?
-            (<p>Loading posts...</p>) :
-            (
-              (posts.map((post) => {
-                return (<div key={post.id}>
-                  <Post post={post} friends={fake_friends} />
-                  <br />
-                </div>)
-              }))
-            ) }
-        </Container>
-
-        <Box className="navbar" sx={{ width: 500 }}>
-          <BottomNavigation
-            showLabels
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-              if (newValue === 0) {
-                navigate("/feed");
-              } else if (newValue === 1) {
-                navigate("/submission");
-              } else {
-                navigate("/account");
+      <Container maxWidth="sm">
+        <Box paddingBottom="30px">
+          <Stack spacing={3}>
+              { posts.length === 0 ?
+                (<p>Loading posts...</p>) :
+                  (posts.map((post) => 
+                    <div key={post.id}>
+                      <Post post={post} friends={fake_friends} />
+                    </div>)
+                  )
               }
-            }}
-          >
-            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-            <BottomNavigationAction label="Post" icon={<PublishIcon />} />
-            <BottomNavigationAction label="My Account" icon={<AccountCircleIcon />} />
-          </BottomNavigation>
+          </Stack>
         </Box>
+      </Container>
+    <NavigationBar />
     </div>
   )
 };

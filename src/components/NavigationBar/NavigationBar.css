@@ -1,0 +1,6 @@
+.nav-bar {
+    background-color: 	lightcyan !important;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
