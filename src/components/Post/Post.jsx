@@ -25,7 +25,7 @@ function Post( { post, friends } ) {
                     </Typography>
                 </div>
                 <div className="description-and-star">
-                    <Typography align="left" variant="body1" sx={{ color: 'text.primary' }}>
+                    <Typography align="left" variant="body1" sx={{ color: 'text.primary', width: "75%"}}>
                         {post.body}
                     </Typography>
                     <div style={{color: post.rating <= 2.5
