@@ -5,11 +5,13 @@ import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import PublishIcon from '@mui/icons-material/Publish';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { collection, getDocs } from "firebase/firestore"; 
 import "./Feed.css";
+import { useNavigate } from "react-router-dom";
 import {db} from "../../utilities/firebase";
+import { set } from 'firebase/database';
 
 const fake_post = {
     id: 1, // automatically assigned
@@ -36,6 +38,7 @@ async function getPostsFromDB() {
 const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
 function Feed() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [value, setValue] = useState(0);
   // useEffect runs every time the component is rendered
@@ -73,10 +76,17 @@ function Feed() {
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
+              if (newValue === 0) {
+                navigate("/feed");
+              } else if (newValue === 1) {
+                navigate("/submission");
+              } else {
+                navigate("/account");
+              }
             }}
           >
             <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+            <BottomNavigationAction label="Post" icon={<PublishIcon />} />
             <BottomNavigationAction label="My Account" icon={<AccountCircleIcon />} />
           </BottomNavigation>
         </Box>

@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import Feed from './components/Feed/Feed';
 import SignIn from './components/SignIn/SignIn';
+import Submission from './components/Submission/Submission';
+import Account from './components/Account/Account';
 
 const App = () => {
   // react hook to keep track of the user's authentication status
@@ -25,6 +27,10 @@ const App = () => {
         {/* comment the following line during development */}
         {/* logic to protect from seeing feed without logging in */}
         <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
+
+        <Route path="/submission" element={user ? <Submission /> : <Navigate to="/" />} />
+
+        <Route path="/account" element={user ? <Account /> : <Navigate to="/" />} />
       </Routes>
     </Router>
   );
