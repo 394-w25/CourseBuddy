@@ -57,12 +57,14 @@ function Feed() {
         <Container className="feed-screen" maxWidth="sm">
           { posts.length === 0 ?
             (<p>Loading posts...</p>) :
-            (posts.map((post) => {
-              console.log(post);
-              return (
-                <Post key={post.id} post={post} friends={fake_friends} />
-              );
-            })) }
+            (
+              (posts.map((post) => {
+                return (<div key={post.id}>
+                  <Post post={post} friends={fake_friends} />
+                  <br />
+                </div>)
+              }))
+            ) }
         </Container>
 
         <Box className="navbar" sx={{ width: 500 }}>

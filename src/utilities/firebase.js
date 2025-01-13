@@ -22,9 +22,16 @@ const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 
 export const db = getFirestore(app);
-export const analytics = getAnalytics(app);
+// export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+// Only initialize analytics if running in a browser -- this is for dataInsertion.js
+// We probably don't need this for the final project
+export let analytics;
+if (typeof window !== "undefined") {
+  analytics = getAnalytics(app);
+}
 
 // Example query code:
 // const querySnapshot = await getDocs(collection(db, "posts"));
