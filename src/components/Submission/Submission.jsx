@@ -36,7 +36,7 @@ function Submission() {
             const professor_value = professorRef.current;
 
             // now we need to push to Firebase
-            const docRef = await addDoc(collection(db, "reviews"), {
+            const docRef = await addDoc(collection(db, "posts"), {
                 title: title_value,
                 course: course_value,
                 quarter: quarter_value,
