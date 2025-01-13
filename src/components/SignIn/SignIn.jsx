@@ -25,7 +25,7 @@ const SignIn = ({setUser}) => {
             <img className="logo" src={logo} alt="CourseBuddy Logo" />
             <h1>Welcome to CourseBuddy!</h1>
             {/* TODO: this is just a very ugly buttom, need to make it look better */}
-            <button onClick={logGoogleUser}>Sign in with Google</button>
+            <button className="signin-button" onClick={logGoogleUser}>Sign in with Google</button>
         </div>
         </Container>
     );
