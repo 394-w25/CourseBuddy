@@ -1,0 +1,11 @@
+.background {
+    background-color: lightblue;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.logo {
+    margin-top: 20px;
+    height: auto;
+    width: 100%; 
+}
