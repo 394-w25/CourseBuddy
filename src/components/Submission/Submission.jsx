@@ -11,7 +11,7 @@ import { db } from '../../utilities/firebase';
 import { collection, addDoc } from "firebase/firestore";
 // Source: Also how to use FB with React. https://www.freecodecamp.org/news/how-to-use-the-firebase-database-in-react/
 
-function Submission() {
+function Submission({ userName }) {
   const [title, setTitle] = React.useState("");
   const [course, setCourse] = React.useState("");
   const [quarter, setQuarter] = React.useState("");
@@ -30,6 +30,7 @@ function Submission() {
         body: body,
         rating: rating,
         professor: professor,
+        username: userName.displayName,
         date: new Date()
       }
 
