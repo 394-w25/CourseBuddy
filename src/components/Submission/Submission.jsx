@@ -61,7 +61,7 @@ function Submission({ userName }) {
     <div>
       <AppBar />
       <Container className="submission-page">
-        <Stack spacing={3}>
+        <Stack spacing={2}>
           <TextField required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
           <TextField required id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
           <TextField required id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
@@ -102,7 +102,7 @@ function Submission({ userName }) {
           </FormControl>
 
           {/* <TextField required id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} /> */}
-          <TextField required id="body" multiline rows={5} label="Write your review!" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
+          <TextField required id="body" multiline rows={3} label="Write your review!" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
           <div className="rating-box">
             <Typography variant="h6" component="legend">Course Rating</Typography>
             <Rating id="rating" name="half-rating" size="large" defaultValue={0} precision={0.5} onChange={(_, newValue) => setRating(newValue)} />
