@@ -78,7 +78,7 @@
     gap: 8px;
   }
   
-  .public-rating-section {
+  .public-rating-container {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -90,13 +90,23 @@
     font-size: 0.9rem;
   }
   
-  .public-star-icons {
-    display: flex;
-    gap: 4px;
+  .big-star-wrapper {
+    position: relative;
+    display: inline-block;
   }
   
-  .star-icon-public {
+  .big-star-icon {
     color: #6C3BB6 !important;
+    font-size: 75px !important;
+  }
+  
+  .big-star-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: bold;
   }
   
   .chip-third {
@@ -108,12 +118,10 @@
     background-color: #92AAFF !important;
     color: #000 !important;
   }
-  
   .chip-course-physics {
     background-color: #ED92FF !important;
     color: #000 !important;
   }
-  
   .chip-course-gen_eng {
     background-color: #FF9294 !important;
     color: #000 !important;
@@ -123,17 +131,14 @@
     background-color: #B4FF92 !important;
     color: #000 !important;
   }
-  
   .chip-quarter-fall {
     background-color: #E5AEFF !important;
     color: #000 !important;
   }
-  
   .chip-quarter-winter {
     background-color: #ADBFFF !important;
     color: #000 !important;
   }
-  
   .chip-quarter-summer {
     background-color: #FFC192 !important;
     color: #000 !important;

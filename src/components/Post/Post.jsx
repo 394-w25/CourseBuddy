@@ -48,18 +48,6 @@ function Post({ post, friends }) {
     return starsArray;
   };
 
-  const renderPublicStars = (rating) => {
-    const filledStars = Math.floor(rating);
-    const starsArray = [];
-    for (let i = 0; i < filledStars; i++) {
-      starsArray.push(<StarIcon key={`p-filled-${i}`} className="star-icon-public" />);
-    }
-    for (let j = filledStars; j < 5; j++) {
-      starsArray.push(<StarBorderIcon key={`p-empty-${j}`} className="star-icon-public" />);
-    }
-    return starsArray;
-  };
-
   return (
     <Card className="post-card">
       <CardContent>
@@ -104,12 +92,15 @@ function Post({ post, friends }) {
             </div>
           </div>
 
-          <div className="public-rating-section">
+          <div className="public-rating-container">
             <Typography variant="body2" className="public-rating-label">
               {(post.publicRatingCount ?? 1100).toLocaleString()} ratings
             </Typography>
-            <div className="public-star-icons">
-              {renderPublicStars(post.publicRating ?? 3.5)}
+            <div className="big-star-wrapper">
+              <StarIcon className="big-star-icon" />
+              <div className="big-star-text">
+                {post.publicRating ?? 3.5}
+              </div>
             </div>
           </div>
         </div>
