@@ -2,10 +2,12 @@ import React from 'react';
 import { Box, Container, Typography, Button, Switch, Divider, Card, CardContent, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import AppBar from '../AppBar/AppBar';
 
 function Account({userName, userEmail}) {
     return (
         <div>
+            <AppBar />
             <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
                 {/* Title */}
                 <Typography variant="h4" style={{ fontWeight: 'bold', marginBottom: '10px' }}>

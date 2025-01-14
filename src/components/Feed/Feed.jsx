@@ -5,6 +5,7 @@ import { Container, Box, Stack } from '@mui/material';
 import { collection, getDocs } from "firebase/firestore"; 
 import {db} from "../../utilities/firebase";
 import "./Feed.css";
+import AppBar from '../AppBar/AppBar';
 
 const fake_post = {
     id: 1, // automatically assigned
@@ -48,6 +49,7 @@ function Feed() {
 
   return (
     <div>
+      <AppBar />
       <Container maxWidth="sm">
         <Box paddingBottom="30px">
           <Stack spacing={3}>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Stack, Button, Alert, Container, TextField, Rating, Typography } from '@mui/material';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import AppBar from '../AppBar/AppBar';
 import "./Submission.css";
 
 // Firebase
@@ -49,6 +50,7 @@ function Submission({ userName }) {
   return (
 
     <div>
+      <AppBar />
       <Container className="submission-page">
         <Stack spacing={3}>
           <TextField required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
