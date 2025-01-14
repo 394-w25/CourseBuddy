@@ -11,6 +11,7 @@ import SignIn from './components/SignIn/SignIn';
 import Submission from './components/Submission/Submission';
 import Account from './components/Account/Account';
 import { Container } from '@mui/material';
+import SearchPage from './components/SearchPage/SearchPage';
 
 const App = () => {
   // react hook to keep track of the user's authentication status
@@ -31,6 +32,7 @@ const App = () => {
             {/* logic to protect from seeing feed without logging in */}
             <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
             <Route path="/submission" element={user ? <Submission userName={user}/> : <Navigate to="/" />} />
+            <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/" />} />
             <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail}/> : <Navigate to="/" />} />
           </Routes>
         </Router>
