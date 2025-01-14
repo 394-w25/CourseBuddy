@@ -10,6 +10,30 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Post.css";
 
+const courseClassMap = {
+  CS: "chip-course-cs",
+  PHYSICS: "chip-course-physics",
+  GEN_ENG: "chip-course-gen_eng",
+};
+
+function getCourseChipClass(courseName) {
+  const upper = courseName.toUpperCase();
+  for (const prefix in courseClassMap) {
+    if (upper.startsWith(prefix)) {
+      return courseClassMap[prefix];
+    }
+  }
+  return "";
+}
+
+function getQuarterChipClass(quarter) {
+  const lower = quarter.toLowerCase();
+  if (lower.includes("spring")) return "chip-quarter-spring";
+  if (lower.includes("fall")) return "chip-quarter-fall";
+  if (lower.includes("winter")) return "chip-quarter-winter";
+  return "";
+}
+
 function Post({ post, friends }) {
   const renderStars = (rating) => {
     const filledStars = Math.floor(rating);
@@ -31,9 +55,18 @@ function Post({ post, friends }) {
     <Card className="post-card">
       <CardContent>
         <div className="chip-box">
-          <Chip label={post.course_name} className="chip-first" />
-          <Chip label={post.quarter} className="chip-second" />
-          <Chip label={post.professor} className="chip-third" />
+          <Chip
+            label={post.course_name}
+            className={getCourseChipClass(post.course_name)}
+          />
+          <Chip
+            label={post.quarter}
+            className={getQuarterChipClass(post.quarter)}
+          />
+          <Chip
+            label={post.professor}
+            className="chip-third"
+          />
         </div>
         <div className="ratings-row">
           <Typography variant="body2" className="rating-count">

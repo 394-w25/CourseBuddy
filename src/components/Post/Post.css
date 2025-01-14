@@ -6,65 +6,99 @@
     max-width: 600px !important;
     padding: 16px !important;
   }
+  
   .chip-box {
     display: flex;
     gap: 8px;
     margin-bottom: 8px;
   }
-  .chip-first {
-    background-color: #92AAFF !important;
-    color: #000 !important;
-  }
-  .chip-second {
-    background-color: #B4FF92 !important;
-    color: #000 !important;
-  }
-  .chip-third {
-    background-color: #BCBCBC !important;
-    color: #000 !important;
-  }
+  
   .ratings-row {
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 12px;
   }
+  
   .rating-count {
     color: #666;
     font-size: 0.9rem;
   }
+  
   .star-icons {
     display: flex;
     gap: 4px;
   }
+  
   .star-icon {
     color: #6C3BB6 !important;
   }
+  
   .post-title {
     font-weight: bold !important;
     margin: 8px 0 !important;
   }
+  
   .post-subheader {
     color: #888;
     margin-bottom: 16px;
   }
+  
   .post-body {
     color: #333;
     margin-bottom: 16px;
     line-height: 1.4;
   }
+  
   .divider {
     border: none;
     border-top: 1px solid #ccc;
     margin: 16px 0;
   }
+  
   .friends-text {
     color: #666;
     margin-bottom: 8px;
   }
+  
   .friends-avatar {
     display: flex;
     gap: 8px;
     justify-content: flex-start;
+  }
+  
+  .chip-third {
+    background-color: #BCBCBC !important;
+    color: #000 !important;
+  }
+  
+  .chip-course-cs {
+    background-color: #92AAFF !important;
+    color: #000 !important;
+  }
+  
+  .chip-course-physics {
+    background-color: #ED92FF !important;
+    color: #000 !important;
+  }
+  
+  .chip-course-gen_eng {
+    background-color: #FF9294 !important;
+    color: #000 !important;
+  }
+  
+  .chip-quarter-spring {
+    background-color: #B4FF92 !important;
+    color: #000 !important;
+  }
+  
+  .chip-quarter-fall {
+    background-color: #FFC192 !important;
+    color: #000 !important;
+  }
+  
+  .chip-quarter-winter {
+    background-color: #ADBFFF !important;
+    color: #000 !important;
   }
   
