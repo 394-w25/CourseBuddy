@@ -4,6 +4,7 @@ import { Stack, Button, Alert, Container, TextField, Rating, Typography } from '
 import NavigationBar from '../NavigationBar/NavigationBar';
 import AppBar from '../AppBar/AppBar';
 import "./Submission.css";
+import { useNavigate } from "react-router-dom";
 
 // Firebase
 // Source: How to add/set documents. https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -13,6 +14,8 @@ import { collection, addDoc } from "firebase/firestore";
 // Source: Also how to use FB with React. https://www.freecodecamp.org/news/how-to-use-the-firebase-database-in-react/
 
 function Submission({ userName }) {
+  const navigate = useNavigate();
+
   const [title, setTitle] = React.useState("");
   const [course, setCourse] = React.useState("");
   const [quarter, setQuarter] = React.useState("");
@@ -39,6 +42,7 @@ function Submission({ userName }) {
         setFillInFields(true);
       } else {
         await addDoc(collectionRef, post);
+        navigate('/feed');
         console.log('Post added!');
       }
 
