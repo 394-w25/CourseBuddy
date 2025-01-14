@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import "./SearchPage.css";
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
-import { Container, Box, TextField, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Container, Box, TextField, List, ListItem, ListItemText, Button, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const friendsDb = ["Anna", "Andrew", "Angela", "Anthony", "Ben", "Bella", "Chris", "Catherine", "Diana"];
 
@@ -36,10 +37,19 @@ function SearchPage() {
         <Box my={4}>
           <TextField 
             fullWidth 
-            label="Search friends" 
+            label="Find your friends on CourseBuddy" 
             variant="outlined" 
             value={query} 
             onChange={handleSearch}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
           <List>
             {results.map((name, index) => (
