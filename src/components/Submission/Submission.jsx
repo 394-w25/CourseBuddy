@@ -4,6 +4,7 @@ import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import NavigationBar from '../NavigationBar/NavigationBar';
 
 // Firebase
 // Source: How to add/set documents. https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -40,20 +41,27 @@ function Submission() {
   }
 
   return (
-    <Box
-      component="form"
-      sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
-      <TextField id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
-      <TextField id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} />
-      <TextField id="body" label="Body" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
-      <TextField id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
-      {/* <Rating id="rating" name="half-rating" defaultValue={0} precision={0.5} onChange={(e) => setRating(e.rating.value)} /> */}
-      <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-    </Box>
+
+    <div>
+      <Box
+        component="form"
+        sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
+        <TextField id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
+        <TextField id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} />
+        <TextField id="body" label="Body" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
+        <TextField id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
+        {/* <Rating id="rating" name="half-rating" defaultValue={0} precision={0.5} onChange={(e) => setRating(e.rating.value)} /> */}
+        <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+
+      </Box>
+      <NavigationBar />
+    </div>
+
+
   )
 
 }
@@ -72,5 +80,5 @@ function Submission() {
 //     </div>
 //   )
 // }
-  
+
 export default Submission;
