@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import logo from "../../images/CBLogo.png";
 
-const SignIn = ({ setUser }) => {
+const SignIn = ({ setUser, setUserEmail }) => {
   const navigate = useNavigate();
 
   const logGoogleUser = async () => {
@@ -11,7 +11,9 @@ const SignIn = ({ setUser }) => {
       const response = await signInWithGooglePopup();
       console.log("User signed in: ", response.user);
       console.log("User display name: ", response.user.displayName);
-      console.log("User email: ", response.user.email);      setUser(response.user);
+      console.log("User email: ", response.user.email); 
+      setUser(response.user);
+      setUserEmail(response.user.email);
       navigate("/feed");
     } catch (error) {
       console.error("Error signing in with Google: ", error);

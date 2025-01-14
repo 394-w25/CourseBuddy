@@ -23,7 +23,7 @@ function Account({userName, userEmail}) {
                         marginBottom: '20px',
                     }}
                 >
-
+                    
                 </Box>
 
                 {/* Stats */}
