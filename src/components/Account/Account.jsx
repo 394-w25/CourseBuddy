@@ -3,7 +3,7 @@ import { Box, Container, Typography, Button, Switch, Divider, Card, CardContent,
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationBar from '../NavigationBar/NavigationBar';
 
-function Account() {
+function Account({userName, userEmail}) {
     return (
         <div>
             <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
@@ -45,10 +45,10 @@ function Account() {
                 {/* Account Details */}
                 <Box style={{ marginBottom: '20px', textAlign: 'left' }}>
                     <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#2196f3', color: 'white', padding: '10px', borderRadius: '5px' }}>
-                        Email: slevitt@gmail.com
+                        {userName?.displayName || "Unknown User"}
                     </Typography>
                     <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#4caf50', color: 'white', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
-                        Display Name: Stephen Levitt
+                        {userEmail || "No email available"}
                     </Typography>
                     <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#f44336', color: 'white', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
                         Major: Computer Science

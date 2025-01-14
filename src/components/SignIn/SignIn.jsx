@@ -4,14 +4,18 @@ import { Container } from '@mui/material';
 import "./SignIn.css";
 import logo from "../../images/CBLogo.png";
 
-const SignIn = ({setUser}) => {
+const SignIn = ({setUser, setUserEmail}) => {
     const navigate = useNavigate();
     const logGoogleUser = async () => {
         try{
             const response = await signInWithGooglePopup();
+
             console.log("User signed in: ", response.user);
+            console.log("User display name: ", response.user.displayName);
+            console.log("User email: ", response.user.email);
             // update the user state in App.jsx
             setUser(response.user);
+            setUserEmail(response.user.email);
             // redirect to the feed page
             navigate("/feed");
         }

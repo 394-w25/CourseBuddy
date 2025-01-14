@@ -15,13 +15,14 @@ import { Container } from '@mui/material';
 const App = () => {
   // react hook to keep track of the user's authentication status
   const [user, setUser] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
 
   return (
       <Container className="app-background" maxWidth="sm" disableGutters>
         <Router>
           <Routes>
             {/* comment the following line during development */}
-            <Route path="/" element={<SignIn setUser={setUser}/>} />
+            <Route path="/" element={<SignIn setUser={setUser} setUserEmail={setUserEmail}/>} />
 
             {/* uncomment the following line during development */}
             {/* <Route path="/" element={<Feed />} /> */}
@@ -30,7 +31,7 @@ const App = () => {
             {/* logic to protect from seeing feed without logging in */}
             <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
             <Route path="/submission" element={user ? <Submission /> : <Navigate to="/" />} />
-            <Route path="/account" element={user ? <Account /> : <Navigate to="/" />} />
+            <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail}/> : <Navigate to="/" />} />
           </Routes>
         </Router>
     </Container>
