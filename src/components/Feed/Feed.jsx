@@ -47,6 +47,7 @@ function Feed() {
     fetchPosts();
   }, []);
 
+  console.log(posts[0]);
   return (
     <div>
       <AppBar />
@@ -55,7 +56,9 @@ function Feed() {
           <Stack spacing={3}>
               { posts.length === 0 ?
                 (<p>Loading posts...</p>) :
-                  (posts.map((post) => 
+                  (posts
+                    .slice()
+                    .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
                     <div key={post.id}>
                       <Post post={post} friends={fake_friends} />
                     </div>)
