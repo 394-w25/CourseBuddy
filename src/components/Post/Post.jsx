@@ -31,22 +31,31 @@ function getQuarterChipClass(quarter) {
   if (lower.includes("spring")) return "chip-quarter-spring";
   if (lower.includes("fall")) return "chip-quarter-fall";
   if (lower.includes("winter")) return "chip-quarter-winter";
+  if (lower.includes("summer")) return "chip-quarter-summer";
   return "";
 }
 
 function Post({ post, friends }) {
-  const renderStars = (rating) => {
+  const renderUserStars = (rating) => {
     const filledStars = Math.floor(rating);
     const starsArray = [];
     for (let i = 0; i < filledStars; i++) {
-      starsArray.push(
-        <StarIcon key={`filled-${i}`} className="star-icon" />
-      );
+      starsArray.push(<StarIcon key={`u-filled-${i}`} className="star-icon-user" />);
     }
     for (let j = filledStars; j < 5; j++) {
-      starsArray.push(
-        <StarBorderIcon key={`empty-${j}`} className="star-icon" />
-      );
+      starsArray.push(<StarBorderIcon key={`u-empty-${j}`} className="star-icon-user" />);
+    }
+    return starsArray;
+  };
+
+  const renderPublicStars = (rating) => {
+    const filledStars = Math.floor(rating);
+    const starsArray = [];
+    for (let i = 0; i < filledStars; i++) {
+      starsArray.push(<StarIcon key={`p-filled-${i}`} className="star-icon-public" />);
+    }
+    for (let j = filledStars; j < 5; j++) {
+      starsArray.push(<StarBorderIcon key={`p-empty-${j}`} className="star-icon-public" />);
     }
     return starsArray;
   };
@@ -55,27 +64,20 @@ function Post({ post, friends }) {
     <Card className="post-card">
       <CardContent>
         <div className="chip-box">
-          <Chip
-            label={post.course_name}
-            className={getCourseChipClass(post.course_name)}
-          />
-          <Chip
-            label={post.quarter}
-            className={getQuarterChipClass(post.quarter)}
-          />
-          <Chip
-            label={post.professor}
-            className="chip-third"
-          />
+          <Chip label={post.course_name} className={getCourseChipClass(post.course_name)} />
+          <Chip label={post.quarter} className={getQuarterChipClass(post.quarter)} />
+          <Chip label={post.professor} className="chip-third" />
         </div>
-        <div className="ratings-row">
-          <Typography variant="body2" className="rating-count">
-            {post.totalRatings || 123} ratings
+
+        <div className="user-rating-section">
+          <Typography variant="body2" className="user-rating-label">
+            <strong>{post.username}</strong> rated this course
           </Typography>
-          <div className="star-icons">
-            {renderStars(post.rating ?? 4)}
+          <div className="user-star-icons">
+            {renderUserStars(post.userRating ?? 0)}
           </div>
         </div>
+
         <Typography variant="h5" component="div" className="post-title">
           {post.title}
         </Typography>
@@ -85,16 +87,31 @@ function Post({ post, friends }) {
         <Typography variant="body1" className="post-body">
           {post.body}
         </Typography>
+
         <hr className="divider" />
-        <Typography variant="body2" className="friends-text">
-          Friends who enrolled
-        </Typography>
-        <div className="friends-avatar">
-          {Object.values(friends).map((friend) => (
-            <Avatar key={friend} aria-label="recipe">
-              {friend[0]}
-            </Avatar>
-          ))}
+
+        <div className="bottom-row">
+          <div className="friends-section">
+            <Typography variant="body2" className="friends-text">
+              Friends who enrolled
+            </Typography>
+            <div className="friends-avatar">
+              {Object.values(friends).map((friend) => (
+                <Avatar key={friend} aria-label="recipe">
+                  {friend[0]}
+                </Avatar>
+              ))}
+            </div>
+          </div>
+
+          <div className="public-rating-section">
+            <Typography variant="body2" className="public-rating-label">
+              {(post.publicRatingCount ?? 1100).toLocaleString()} ratings
+            </Typography>
+            <div className="public-star-icons">
+              {renderPublicStars(post.publicRating ?? 3.5)}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
