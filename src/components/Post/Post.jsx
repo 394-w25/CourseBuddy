@@ -1,67 +1,71 @@
 import React from 'react';
-import { Card, CardHeader, Avatar, IconButton, CardContent, CardActionArea, Typography, Chip } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  Avatar
+} from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Post.css";
 
-function Post( { post, friends } ) {
+function Post({ post, friends }) {
+  const renderStars = (rating) => {
+    const filledStars = Math.floor(rating);
+    const starsArray = [];
+    for (let i = 0; i < filledStars; i++) {
+      starsArray.push(
+        <StarIcon key={`filled-${i}`} className="star-icon" />
+      );
+    }
+    for (let j = filledStars; j < 5; j++) {
+      starsArray.push(
+        <StarBorderIcon key={`empty-${j}`} className="star-icon" />
+      );
+    }
+    return starsArray;
+  };
+
   return (
-    <div>
-        <Card className="post-card">
-            <CardActionArea>
-            <CardContent>
-                <div className="chip-box">
-                    <Chip label={post.course_name} color="info" />
-                    <Chip label={post.quarter} color="warning" />
-                    <Chip label={post.professor} color="secondary" />
-                </div>
-                <div className="post-header">
-                    <Typography variant="h5" component="div" align="left" sx = {{fontWeight: 'bold'}} >
-                        {post.title}
-                    </Typography>
-                    
-                    <Typography variant="body2" align="left" sx={{ color: 'text.secondary'}}>
-                        Posted by <b>{post.username}</b> on {post.date.toDate().toDateString()}
-                    </Typography>
-                </div>
-                <div className="description-and-star">
-                    <Typography align="left" variant="body1" sx={{ color: 'text.primary', width: "75%"}}>
-                        {post.body}
-                    </Typography>
-                    <div style={{color: post.rating <= 2.5
-                    ? 'red'
-                    : post.rating >= 4
-                    ? 'green'
-                    : 'yellow', position: 'relative', display: 'inline-flex', alignItems: 'center'}}>
-                        <StarBorderIcon style= {{fontSize: "100"}} />
-                        <Typography variant="body2" className="star-text">
-                            {post.rating}
-                        </Typography>
-                    </div>
-                
-                </div>
-                
-
-                <hr/>
-
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {"These friends rated this class too: "}
-                </Typography>
-                <div className="friends-avatar" align="center">
-                    {Object.values(friends).map((friend) => {
-                        return (
-                            <Avatar key={friend} aria-label="recipe">
-                                {friend[0]}
-                            </Avatar>
-                        );
-                    })}
-                </div>
-
-            </CardContent>
-            </CardActionArea>
-        </Card>
-    </div>
-  )
-};
+    <Card className="post-card">
+      <CardContent>
+        <div className="chip-box">
+          <Chip label={post.course_name} className="chip-first" />
+          <Chip label={post.quarter} className="chip-second" />
+          <Chip label={post.professor} className="chip-third" />
+        </div>
+        <div className="ratings-row">
+          <Typography variant="body2" className="rating-count">
+            {post.totalRatings || 123} ratings
+          </Typography>
+          <div className="star-icons">
+            {renderStars(post.rating ?? 4)}
+          </div>
+        </div>
+        <Typography variant="h5" component="div" className="post-title">
+          {post.title}
+        </Typography>
+        <Typography variant="body2" className="post-subheader">
+          Posted by <strong>{post.username}</strong> on {post.date.toDate().toDateString()}
+        </Typography>
+        <Typography variant="body1" className="post-body">
+          {post.body}
+        </Typography>
+        <hr className="divider" />
+        <Typography variant="body2" className="friends-text">
+          Friends who enrolled
+        </Typography>
+        <div className="friends-avatar">
+          {Object.values(friends).map((friend) => (
+            <Avatar key={friend} aria-label="recipe">
+              {friend[0]}
+            </Avatar>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default Post;
