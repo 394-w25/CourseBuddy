@@ -1,0 +1,14 @@
+.submission-page {
+    padding: 3em;
+    height: 100vh;
+}
+
+#rating {
+    margin-top: 0;
+}
+
+.rating-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

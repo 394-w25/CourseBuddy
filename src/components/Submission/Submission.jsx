@@ -1,10 +1,8 @@
 // React and components
 import React from 'react';
-import Rating from '@mui/material/Rating';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { Stack, Button, Alert, Container, TextField, Rating, Typography } from '@mui/material';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import "./Submission.css";
 
 // Firebase
 // Source: How to add/set documents. https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -20,6 +18,7 @@ function Submission() {
   const [body, setBody] = React.useState("");
   const [rating, setRating] = React.useState(0);
   const [professor, setProfessor] = React.useState("");
+  const [fillInFields, setFillInFields] = React.useState(false);
 
   async function handleSubmit() {
     try {
@@ -33,8 +32,14 @@ function Submission() {
         professor: professor,
         date: new Date()
       }
-      await addDoc(collectionRef, post);
-      console.log('Post added!');
+
+      if (!title || !course || !body || !professor || !rating) {
+        setFillInFields(true);
+      } else {
+        await addDoc(collectionRef, post);
+        console.log('Post added!');
+      }
+
     } catch (error) {
       console.error('Error adding post:', error);
     }
@@ -43,42 +48,24 @@ function Submission() {
   return (
 
     <div>
-      <Box
-        component="form"
-        sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
-        <TextField id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
-        <TextField id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} />
-        <TextField id="body" label="Body" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
-        <TextField id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
-        {/* <Rating id="rating" name="half-rating" defaultValue={0} precision={0.5} onChange={(e) => setRating(e.rating.value)} /> */}
-        <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-
-      </Box>
+      <Container className="submission-page">
+        <Stack spacing={3}>
+          <TextField required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
+          <TextField required id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
+          <TextField required id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
+          <TextField required id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} />
+          <TextField required id="body" multiline rows={5} label="Write your review!" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
+          <div className="rating-box">
+            <Typography variant="h6" component="legend">Course Rating</Typography>
+            <Rating id="rating" name="half-rating" size="large" defaultValue={0} precision={0.5} onChange={(_, newValue) => setRating(newValue)} />
+          </div>
+          {(fillInFields) ? <Alert variant="filled" severity="warning">Fill in all the fields before submitting.</Alert> : null}
+          <Button variant="contained" onClick={handleSubmit} >Submit</Button>
+        </Stack>
+      </Container>
       <NavigationBar />
     </div>
-
-
   )
-
 }
-
-
-
-
-
-
-// function Submission () {
-//   return (
-//     <div>
-//       <h1>Submission</h1>
-//       <p>Feature not implemented yet...</p>
-//       <p>Here is where you can submit a review.</p>
-//     </div>
-//   )
-// }
 
 export default Submission;
