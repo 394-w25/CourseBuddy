@@ -18,13 +18,14 @@ const App = () => {
   // react hook to keep track of the user's authentication status
   const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
 
   return (
       <Container className="app-background" maxWidth="sm" disableGutters>
         <Router>
           <Routes>
             {/* comment the following line during development */}
-            <Route path="/" element={<SignIn setUser={setUser} setUserEmail={setUserEmail}/>} />
+            <Route path="/" element={<SignIn setUser={setUser} setUserEmail={setUserEmail} setProfilePic={setProfilePic}/>} />
 
             {/* uncomment the following line during development */}
             {/* <Route path="/" element={<Feed />} /> */}
@@ -34,7 +35,7 @@ const App = () => {
             <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
             <Route path="/submission" element={user ? <Submission userName={user}/> : <Navigate to="/" />} />
             <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/" />} />
-            <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail}/> : <Navigate to="/" />} />
+            <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail} profilePic={profilePic} /> : <Navigate to="/" />} />
             <Route path="/rating-history" element={user ? <RatingHistory userName={user} /> : <Navigate to="/" />} />
           </Routes>
         </Router>
