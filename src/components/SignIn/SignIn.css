@@ -5,30 +5,20 @@
     min-height: 100vh;
     margin: 0;
     padding: 0;
-  }
-  
-  .signin-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    padding: 40px 30px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
+    flex-direction: column;
   }
   
   .logo {
     display: block;
     margin: 0 auto 20px auto;
-    max-width: 400px;
+    max-width: 300px;
     height: auto;
   }
 
-  
     .signin-button {
     background-color: #4285f4;
     color: #ffffff;
-    padding: 16px 100px;
+    padding: 16px 20px;
     font-size: 1.25rem;
     font-weight: 500;
     border: none;

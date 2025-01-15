@@ -2,6 +2,7 @@ import { signInWithGooglePopup } from "../../utilities/firebase";
 import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import logo from "../../images/CBLogo.png";
+import { Container } from '@mui/material';
 
 const SignIn = ({ setUser, setUserEmail }) => {
   const navigate = useNavigate();
@@ -21,14 +22,12 @@ const SignIn = ({ setUser, setUserEmail }) => {
   };
 
   return (
-    <div className="signin-page">
-      <div className="signin-card">
+    <Container className="signin-page" maxWidth="sm">
         <img className="logo" src={logo} alt="CourseBuddy Logo" />
         <button className="signin-button" onClick={logGoogleUser}>
           Sign in with Google
         </button>
-      </div>
-    </div>
+    </Container>
   );
 };
 
