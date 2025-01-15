@@ -62,7 +62,7 @@ function Post({ post, friends }) {
             <strong>{post.username}</strong> rated this course
           </Typography>
           <div className="user-star-icons">
-            {renderUserStars(post.userRating ?? 0)}
+            {renderUserStars(post.rating ?? 0)}
           </div>
         </div>
 
