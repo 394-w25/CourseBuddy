@@ -1,19 +1,5 @@
-.profile-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    margin: 0 auto 20px auto; /* Center horizontally and add bottom margin */
-}
-
-.profile-text {
+.profile-box {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center children horizontally */
-    justify-content: center;
-}
-
-.profile-name-email {
-    margin: 5px 0; /* Add vertical spacing */
-    text-align: center; /* Ensure text is centered */
+    align-items: center;
 }

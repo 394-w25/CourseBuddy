@@ -36,7 +36,7 @@ const App = () => {
             <Route path="/submission" element={user ? <Submission userName={user}/> : <Navigate to="/" />} />
             <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/" />} />
             <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail} profilePic={profilePic} /> : <Navigate to="/" />} />
-            <Route path="/rating-history" element={user ? <RatingHistory userName={user} /> : <Navigate to="/" />} />
+            <Route path="/rating-history" element={user ? <RatingHistory userName={user} profilePic={profilePic} /> : <Navigate to="/" />} />
           </Routes>
         </Router>
     </Container>

@@ -2,13 +2,14 @@ import Post from '../Post/Post';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../utilities/firebase";
 import { useState, useEffect } from 'react';
-import { Container, Box, Stack } from '@mui/material';
+import { Container, Box, Stack, Typography } from '@mui/material';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import './RatingHistory.css';
+import Avatar from '@mui/material/Avatar';
 
 
-function RatingHistory({ userName }) {
+function RatingHistory({ userName, profilePic }) {
     const [filteredPost, setFilteredPost] = useState([]);
 
     const fake_friends = ["Alice", "Bob", "Charlie", "David"];
@@ -46,15 +47,10 @@ function RatingHistory({ userName }) {
         <div>
             <AppBar />
             <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
-                {/* Profile Icon */}
-                <Box className="profile-icon">
-                
-                {/* Profile Name and Email */}
-                <Box className="profile-text">
-                    <h1 className="profile-name-email">{userName.displayName}</h1>
-                    <p className="profile-name-email">{userName.email}</p>
-                </Box>
+                <Box className="profile-box">
 
+                    <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
+                    <Typography variant="h5">{userName.displayName}</Typography> 
                 </Box>
                 <br />
             </Container>
