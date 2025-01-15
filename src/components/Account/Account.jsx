@@ -10,6 +10,10 @@ import "./Account.css";
 function Account({ userName, userEmail, profilePic }) {
     const navigate = useNavigate();
 
+    const signOut = () => {
+        navigate("/");
+    };
+
     return (
         <div>
             <AppBar />
@@ -85,6 +89,7 @@ function Account({ userName, userEmail, profilePic }) {
                         variant="contained"
                         color="error"
                         style={{ marginTop: '20px', width: '100%', marginBottom: '20px' }}
+                        onClick={signOut}
                     >
                         Sign Out
                     </Button>
