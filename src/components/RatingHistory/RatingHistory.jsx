@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Container, Box, Stack } from '@mui/material';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import './RatingHistory.css';
 
 
 function RatingHistory({ userName }) {
@@ -24,7 +25,6 @@ function RatingHistory({ userName }) {
                     posts.push({ id: doc.id, ...doc.data() });
                 }
             });
-            //const filteredPosts = posts.filter(post => post.username === userName?.displayName);
             return posts;
         } catch (error) {
             console.log("Error: ", error);
@@ -37,29 +37,20 @@ function RatingHistory({ userName }) {
             try {
                 const fetchedPosts = await getPostsFromDB();
                 setFilteredPost(fetchedPosts);
-                console.log("Filtered posts: ", fetchedPosts);
+                // console.log("Filtered posts: ", fetchedPosts);
             } catch (error) {
                 console.error("Error fetching posts: ", error);
             }
         }
         fetchPosts();
-    }, [userName]); // Add userName as a dependency    
+    }, [userName]); // Add userName as a dependency to prevent it from running infinitely    
 
     return (
         <div>
             <AppBar />
             <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
                 {/* Profile Icon */}
-                <Box
-                    style={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '50%',
-                        backgroundColor: '#e0e0e0',
-                        display: 'inline-block',
-                        marginBottom: '20px',
-                    }}
-                >
+                <Box className="profile-icon">
                     {/* Profile Name */}
                     <h1>{userName.displayName}</h1>
                     {/* Profile Email */}
