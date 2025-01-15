@@ -18,9 +18,6 @@ function RatingHistory({ userName }) {
             const querySnapshot = await getDocs(collection(db, "posts"));
             const posts = [];
             querySnapshot.forEach((doc) => {
-                // console.log("doc status before pushing: ", doc.data());
-                // console.log("username: ", doc.data().username);
-                // console.log("displayName: ", userName.displayName);
                 if (doc.data().username === userName?.displayName){
                     posts.push({ id: doc.id, ...doc.data() });
                 }
@@ -51,12 +48,17 @@ function RatingHistory({ userName }) {
             <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
                 {/* Profile Icon */}
                 <Box className="profile-icon">
-                    {/* Profile Name */}
-                    <h1>{userName.displayName}</h1>
-                    {/* Profile Email */}
-                    <p>{userName.email}</p>
+                
+                {/* Profile Name and Email */}
+                <Box className="profile-text">
+                    <h1 className="profile-name-email">{userName.displayName}</h1>
+                    <p className="profile-name-email">{userName.email}</p>
                 </Box>
+
+                </Box>
+                <br />
             </Container>
+
 
             <Container maxWidth="sm">
                 <Box paddingBottom="30px">
