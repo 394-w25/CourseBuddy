@@ -17,7 +17,7 @@ function Account({ userName, userEmail, profilePic }) {
     return (
         <div>
             <AppBar />
-            <Container maxWidth="sm" style={{ textAlign: 'center', paddingTop: '20px' }}>
+            <Container maxWidth="sm" style={{ textAlign: 'center', paddingTop: '20px', height: '100vh' }}>
                 {/* Profile Icon */}
                 <Box
                     style={{
