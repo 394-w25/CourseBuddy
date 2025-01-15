@@ -5,8 +5,7 @@ import AppBar from '../AppBar/AppBar';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-
-
+import "./Account.css";
 
 function Account({ userName, userEmail, profilePic }) {
     const navigate = useNavigate();
@@ -29,6 +28,16 @@ function Account({ userName, userEmail, profilePic }) {
                     <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
                 </Box>
 
+                {/* Account Details */}
+                <Box className="account-details">
+                    <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#2196f3', color: 'white', padding: '10px', borderRadius: '5px' }}>
+                        {"Name: "}{userName?.displayName || "Unknown User"}
+                    </Typography>
+                    <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#4caf50', color: 'white', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
+                        {"Email: "}{userEmail || "No email available"}
+                    </Typography>
+                </Box>
+
                 {/* Stats */}
                 <Box style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
                     <Card style={{ width: '45%', backgroundColor:'#BCBCBC' }}>
@@ -43,16 +52,6 @@ function Account({ userName, userEmail, profilePic }) {
                             <Typography variant="h5" style={{ fontWeight: 'bold' }}>87</Typography>
                         </CardContent>
                     </Card>
-                </Box>
-
-                {/* Account Details */}
-                <Box className="account-details">
-                    <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#2196f3', color: 'white', padding: '10px', borderRadius: '5px' }}>
-                        {"Name: "}{userName?.displayName || "Unknown User"}
-                    </Typography>
-                    <Typography variant="body1" style={{ fontWeight: 'bold', backgroundColor: '#4caf50', color: 'white', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
-                        {"Email: "}{userEmail || "No email available"}
-                    </Typography>
                 </Box>
 
                 {/* Friend and Privacy Settings */}
