@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../utilities/firebase";
-import { Container, Box, Stack, Typography, Button, Textfield } from '@mui/material';
+import { Container, Box, Stack, Typography, Button } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
 // import TextFields from '@mui/icons-material/TextFields';
 import Post from '../Post/Post';
+import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
-function Comment({ userName }) {
+function Comment({ userName, profilePic }) {
+    console.log("userName: ", userName);
+    // console.log("profilePic: ", profilePic);
+    const navigate = useNavigate();
     const post_id = useParams().post_id;
     const [postInfo, setPostInfo] = useState(null);
+    const [body, setBody] = useState("");
+    const [fillInFields, setFillInFields] = useState(false);
 
     async function getPostInfoFromDB(post_id) {
         try {
@@ -40,6 +47,29 @@ function Comment({ userName }) {
         fetchPosts();
     }, [post_id]);
 
+    async function handleSubmit() {
+        try {
+            const collectionRef = collection(db, 'comments');
+            const comment = {
+                post_id: post_id,
+                body: body,
+                username: userName.displayName,
+                profilePic: profilePic,
+                date: new Date()
+            };
+
+            if (!body) {
+                setFillInFields(true);
+            } else {
+                await addDoc(collectionRef, comment);
+                navigate('/feed');
+                console.log('Comment added!');
+            }
+        } catch (error) {
+            console.error('Error adding comments:', error);
+        }
+    }
+
     return (
         <div>
             <AppBar />
@@ -56,14 +86,8 @@ function Comment({ userName }) {
                 <Box className="comment-box">
                     <Typography variant="h6">Add a Comment</Typography>
                     <Stack spacing={2}>
-                        <TextField
-                            label="Comment"
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            rows={4}
-                        />
-                        <Button variant="contained" color="primary">
+                        <TextField fullWidth label="Comment" onChange={(e) => setBody(e.target.value)}/>
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>
                             Submit
                         </Button>
                     </Stack>
