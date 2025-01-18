@@ -19,6 +19,7 @@ const courseClassMap = {
 };
 
 function getCourseChipClass(courseName) {
+  console.log("courseName: ", courseName);
   const upper = courseName.toUpperCase();
   for (const prefix in courseClassMap) {
     if (upper.startsWith(prefix)) {
