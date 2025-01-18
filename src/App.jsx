@@ -13,6 +13,7 @@ import Account from './components/Account/Account';
 import { Container } from '@mui/material';
 import SearchPage from './components/SearchPage/SearchPage';
 import RatingHistory from './components/RatingHistory/RatingHistory';
+import Comment from './components/Comment/Comment';
 
 const App = () => {
   // react hook to keep track of the user's authentication status
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/" />} />
             <Route path="/account" element={user ? <Account userName={user} userEmail={userEmail} profilePic={profilePic} /> : <Navigate to="/" />} />
             <Route path="/rating-history" element={user ? <RatingHistory userName={user} profilePic={profilePic} /> : <Navigate to="/" />} />
+            <Route path="/comment/:post_id" element={user ? <Comment userName={user} /> : <Navigate to="/" />} />
           </Routes>
         </Router>
     </Container>
