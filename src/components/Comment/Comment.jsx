@@ -21,7 +21,6 @@ function Comment({ userName }) {
                     posts.push({ id: doc.id, ...doc.data() });
                 }
             });
-            console.log("HEREREREERE?");
             return posts[0];
         } catch (error) {
             console.log("Error: ", error);
@@ -41,13 +40,6 @@ function Comment({ userName }) {
         fetchPosts();
     }, [post_id]);
 
-    useEffect(() => {
-        if (postInfo) {
-            console.log("Updated postInfo: ", postInfo);
-            console.log("Course name: ", postInfo.course_name);
-        }
-    }, [postInfo]); // Log whenever postInfo updates
-
     return (
         <div>
             <AppBar />
@@ -60,7 +52,6 @@ function Comment({ userName }) {
                 )}
             </Container>
 
-            {/* add a comment section */}
             <Container maxWidth="sm">
                 <Box className="comment-box">
                     <Typography variant="h6">Add a Comment</Typography>
