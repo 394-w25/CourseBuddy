@@ -76,7 +76,7 @@ function Comment({ userName, profilePic }) {
             } else {
                 await addDoc(collectionRef, comment);
                 setBody(""); // Clear the input field
-                console.log("Comment added!");
+                // console.log("Comment added!");
             }
         } catch (error) {
             console.error("Error adding comments:", error);
@@ -87,9 +87,9 @@ function Comment({ userName, profilePic }) {
         <div>
             <AppBar />
             <Container maxWidth="sm">
-                <Typography variant="h5" gutterBottom>
+                {/* <Typography variant="h5" gutterBottom>
                     Comments for {post_id}
-                </Typography>
+                </Typography> */}
                 {postInfo ? (
                     <Post post={postInfo} friends={[]} />
                 ) : (
@@ -143,6 +143,7 @@ function Comment({ userName, profilePic }) {
                         </Button>
                     </Stack>
                 </Box>
+                <br />
             </Container>
             <NavigationBar />
         </div>
