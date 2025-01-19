@@ -46,33 +46,35 @@ function RatingHistory({ userName, profilePic }) {
     return (
         <div>
             <AppBar />
-            <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
-                <Box className="profile-box">
+            <Container className='rating-history-page'>
 
-                    <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
-                    <Typography variant="h5">{userName.displayName}</Typography> 
-                </Box>
-                <br />
+                <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
+                    <Box className="profile-box">
+
+                        <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
+                        <Typography variant="h5">{userName.displayName}</Typography> 
+                    </Box>
+                    <br />
+                </Container>
+
+                <Container maxWidth="sm">
+                    <Box paddingBottom="30px">
+                    <Stack spacing={3}>
+                        { filteredPost.length === 0 ?
+                            (<p>Loading posts...</p>) :
+                            (filteredPost
+                                .slice()
+                                .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
+                                <div key={post.id}>
+                                <Post post={post} friends={fake_friends} />
+                                </div>)
+                            )
+                        }
+                    </Stack>
+                    </Box>
+                </Container>
+                <NavigationBar />
             </Container>
-
-
-            <Container maxWidth="sm">
-                <Box paddingBottom="30px">
-                <Stack spacing={3}>
-                    { filteredPost.length === 0 ?
-                        (<p>Loading posts...</p>) :
-                        (filteredPost
-                            .slice()
-                            .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
-                            <div key={post.id}>
-                            <Post post={post} friends={fake_friends} />
-                            </div>)
-                        )
-                    }
-                </Stack>
-                </Box>
-            </Container>
-            <NavigationBar />
         </div>
     )
 
