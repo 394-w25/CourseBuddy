@@ -1,146 +1,127 @@
+/* Alot of styling needs to be done */
 .post-card {
-    background-color: #D9D9D9 !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-    margin: 16px auto !important;
-    max-width: 600px !important;
-    padding: 16px !important;
-  }
-  
-  .chip-box {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .user-rating-section {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 12px;
-  }
-  
-  .user-rating-label {
-    color: #666;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-  }
-  
-  .user-star-icons {
-    display: flex;
-    gap: 4px;
-  }
-  
-  .star-icon-user {
-    color: #5A54FF !important;
-  }
-  
-  .post-title {
-    font-weight: bold !important;
-    margin: 8px 0 !important;
-  }
-  
-  .post-subheader {
-    color: #888;
-    margin-bottom: 16px;
-  }
-  
-  .post-body {
-    color: #333;
-    margin-bottom: 16px;
-    line-height: 1.4;
-  }
-  
-  .divider {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 16px 0;
-  }
-  
-  .bottom-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 16px;
-  }
-  
-  .friends-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .friends-text {
-    color: #666;
-    margin-bottom: 8px;
-  }
-  
-  .friends-avatar {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .public-rating-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .public-rating-label {
-    color: #666;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-  }
-  
-  .big-star-wrapper {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .big-star-icon {
-    color: #6C3BB6 !important;
-    font-size: 75px !important;
-  }
-  
-  .big-star-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .chip-third {
-    background-color: #BCBCBC !important;
-    color: #000 !important;
-  }
-  
-  .chip-course-cs {
-    background-color: #92AAFF !important;
-    color: #000 !important;
-  }
-  .chip-course-physics {
-    background-color: #ED92FF !important;
-    color: #000 !important;
-  }
-  .chip-course-gen_eng {
-    background-color: #FF9294 !important;
-    color: #000 !important;
-  }
-  
-  .chip-quarter-spring {
-    background-color: #B4FF92 !important;
-    color: #000 !important;
-  }
-  .chip-quarter-fall {
-    background-color: #E5AEFF !important;
-    color: #000 !important;
-  }
-  .chip-quarter-winter {
-    background-color: #ADBFFF !important;
-    color: #000 !important;
-  }
-  .chip-quarter-summer {
-    background-color: #FFC192 !important;
-    color: #000 !important;
-  }
-  
+  max-width: 400px !important;
+  padding: 8px !important;
+  margin: 8px auto !important;
+  background-color: #D9D9D9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.chip-box {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.chip-third,
+.chip-course-cs,
+.chip-course-physics,
+.chip-course-gen_eng,
+.chip-quarter-spring,
+.chip-quarter-fall,
+.chip-quarter-winter,
+.chip-quarter-summer {
+  font-size: 0.75rem !important;
+  height: 24px !important;
+}
+
+.user-rating-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.user-rating-label {
+  color: #666;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+}
+
+.user-star-icons {
+  display: flex;
+  gap: 2px;
+}
+.star-icon-user {
+  color: #5A54FF !important;
+  font-size: 0.9rem !important;
+}
+
+.post-title {
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  margin: 4px 0 !important;
+}
+
+.post-subheader {
+  color: #888;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+
+.post-body {
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.3;
+  font-size: 0.9rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 12px 0;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 8px;
+}
+
+.friends-section {
+  display: flex;
+  flex-direction: column;
+}
+.friends-text {
+  color: #666;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+.friends-avatar {
+  display: flex;
+  gap: 4px;
+}
+.friends-avatar .MuiAvatar-root {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 0.8rem !important;
+}
+
+.public-rating-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.public-rating-label {
+  color: #666;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+}
+
+.big-star-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.big-star-icon {
+  color: #6C3BB6 !important;
+  font-size: 40px !important;
+}
+.big-star-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+}

@@ -1,4 +1,3 @@
-// React and components
 import React from 'react';
 import { Stack, Button, Alert, Container, TextField, Rating, Typography } from '@mui/material';
 import NavigationBar from '../NavigationBar/NavigationBar';
