@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Post from '../Post/Post';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import CourseSelect from '../CourseSelect/CourseSelect';
 import RestoreIcon from '@mui/icons-material/Restore';
 import PeopleIcon from '@mui/icons-material/People';
 import PublicIcon from '@mui/icons-material/Public';
@@ -39,6 +40,9 @@ const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState();
+  const [filteredposts, setFilteredposts] = useState([]);
+
   // useEffect runs every time the component is rendered
   useEffect(() => {
     // wait for all posts from database to be fetched
@@ -52,6 +56,18 @@ function Feed() {
     }
     fetchPosts();
   }, []);
+
+  // Source: https://www.freecodecamp.org/news/filter-arrays-in-javascript/
+  // How to filter an array by search term ^
+  // https://www.geeksforgeeks.org/how-to-build-a-search-filter-using-react-hooks/
+  useEffect(() => {
+    if (search) { // if there's something in the search bar
+      setFilteredposts(posts.filter(post => post.course_name.toLowerCase().includes(search)))
+    }
+    else {
+      setFilteredposts(posts) // retrieve all if the search bar isn't being used
+    }
+  }, [search, posts]); // must define the states that cause re-rendering
 
     const [value, setValue] = React.useState(0);
   
@@ -67,12 +83,13 @@ function Feed() {
         <Tab label="Friends" icon={<PeopleIcon />} component={Link} to="/feed" />
         <Tab label="Public" icon={<PublicIcon />} component={Link} to="/public" />
       </Tabs>
+      <CourseSelect searchFunc={setSearch} />
       <Container maxWidth="sm">
         <Box paddingBottom="30px">
           <Stack spacing={3}>
-              { posts.length === 0 ?
-                (<p>Loading posts...</p>) :
-                  (posts
+              { filteredposts.length === 0 ?
+                (<p>No results found...</p>) :
+                  (filteredposts
                     .slice()
                     .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
                     <div key={post.id}>

@@ -1,37 +1,36 @@
 import React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import "./CourseSelect.css";
 
+// tips for building a search bar: https://dev.to/salehmubashar/search-bar-in-react-js-545l
 
+// Source: https://samhalll.medium.com/implementing-a-search-bar-feature-in-react-10739d594f79
+// this explains how to pass props to a search bar comp
 
-function CourseSelect() {
-    const [course, setCourse] = React.useState('All'); // change to 'All' later
-    
-    const handleChange = (event) => {
-        setCourse(event.target.value);
-        console.log(event.target.value);
-    };
+function CourseSelect( {searchFunc} ) {
+
+    function onType(e) {
+        // console.log(e.target.value.toLowerCase());
+        searchFunc(e.target.value.toLowerCase());
+    }
   
     return (
-        <div>
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Course Filter</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={course}
-                label="Course Filter"
-                onChange={handleChange}
-                >
-                <MenuItem value={"All"}>All</MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
-        </div>
+        <Paper
+        className="search-bar"
+        >
+            <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Search by Course Name"
+                inputProps={{ 'aria-label': 'search by course' }}
+                onChange={onType}
+            />
+            <IconButton sx={{ p: '10px', pointerEvents: 'none' }} aria-label="search">
+                <SearchIcon />
+            </IconButton>
+        </Paper>
     );
   }
   
