@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { Container, Box, Stack } from '@mui/material';
 import { collection, getDocs } from "firebase/firestore"; 
 import {db} from "../../utilities/firebase";
-import "./Feed.css";
+import "./PublicFeed.css";
 import AppBar from '../AppBar/AppBar';
 
 const fake_post = {
@@ -27,7 +27,9 @@ const fake_post = {
 
 async function getPostsFromDB() {
   // get all the posts from the database
-  const querySnapshot = await getDocs(collection(db, "posts"));
+
+  // might have to make a "public" database for public posts
+  const querySnapshot = await getDocs(collection(db, "publicPosts"));
   const posts = [];
   querySnapshot.forEach((doc) => {
       posts.push({id: doc.id, ...doc.data()});
@@ -37,7 +39,7 @@ async function getPostsFromDB() {
 
 const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
-function Feed() {
+function PublicFeed() {
   const [posts, setPosts] = useState([]);
   // useEffect runs every time the component is rendered
   useEffect(() => {
@@ -53,11 +55,11 @@ function Feed() {
     fetchPosts();
   }, []);
 
-    const [value, setValue] = React.useState(0);
-  
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
+  const [value, setValue] = React.useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   console.log(posts[0]);
   return (
@@ -88,4 +90,4 @@ function Feed() {
   )
 };
 
-export default Feed;
+export default PublicFeed;

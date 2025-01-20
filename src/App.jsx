@@ -6,6 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import PublicFeed from './components/PublicFeed/PublicFeed';
 import Feed from './components/Feed/Feed';
 import SignIn from './components/SignIn/SignIn';
 import Submission from './components/Submission/Submission';
@@ -33,6 +34,7 @@ const App = () => {
 
             {/* comment the following line during development */}
             {/* logic to protect from seeing feed without logging in */}
+            <Route path="/public" element={user ? <PublicFeed /> : <Navigate to="/" />} />
             <Route path="/feed" element={user ? <Feed /> : <Navigate to="/" />} />
             <Route path="/submission" element={user ? <Submission userName={user}/> : <Navigate to="/" />} />
             <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/" />} />
