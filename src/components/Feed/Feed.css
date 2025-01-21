@@ -1,4 +1,13 @@
 .feed-content {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    height: calc(100vh - 56px - 64px - 72px); /* This is the height of the viewport minus the height of the app bar, the bottom navigation bar, and the friends public switch */
+    margin-top: 150px;
+}
+
+.friends-public-switch {
+    left: 0;
+    right: 0;
+    top: 64px;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
 }

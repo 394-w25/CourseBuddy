@@ -79,11 +79,11 @@ function Feed() {
   return (
     <div>
       <AppBar />
-      <Container className="feed-content" maxWidth="sm">
-        <Tabs value={value} onChange={handleChange} centered>
+        <Tabs className="friends-public-switch" value={value} onChange={handleChange} centered>
           <Tab label="Friends" icon={<PeopleIcon />} component={Link} to="/feed" />
           <Tab label="Public" icon={<PublicIcon />} component={Link} to="/public" />
         </Tabs>
+        <Container className="feed-content" maxWidth="sm">
         <CourseSelect searchFunc={setSearch} />
           <Box paddingBottom="30px">
             <Stack spacing={3}>
