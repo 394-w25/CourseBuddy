@@ -79,26 +79,26 @@ function Feed() {
   return (
     <div>
       <AppBar />
-      <Tabs value={value} onChange={handleChange} centered>
-        <Tab label="Friends" icon={<PeopleIcon />} component={Link} to="/feed" />
-        <Tab label="Public" icon={<PublicIcon />} component={Link} to="/public" />
-      </Tabs>
-      <CourseSelect searchFunc={setSearch} />
-      <Container maxWidth="sm">
-        <Box paddingBottom="30px">
-          <Stack spacing={3}>
-              { filteredposts.length === 0 ?
-                (<p>No results found...</p>) :
-                  (filteredposts
-                    .slice()
-                    .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
-                    <div key={post.id}>
-                      <Post post={post} friends={fake_friends} />
-                    </div>)
-                  )
-              }
-          </Stack>
-        </Box>
+      <Container className="feed-content" maxWidth="sm">
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Friends" icon={<PeopleIcon />} component={Link} to="/feed" />
+          <Tab label="Public" icon={<PublicIcon />} component={Link} to="/public" />
+        </Tabs>
+        <CourseSelect searchFunc={setSearch} />
+          <Box paddingBottom="30px">
+            <Stack spacing={3}>
+                { filteredposts.length === 0 ?
+                  (<p>No results found...</p>) :
+                    (filteredposts
+                      .slice()
+                      .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
+                      <div key={post.id}>
+                        <Post post={post} friends={fake_friends} />
+                      </div>)
+                    )
+                }
+            </Stack>
+          </Box>
       </Container>
     <NavigationBar />
     </div>

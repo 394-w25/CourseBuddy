@@ -59,7 +59,7 @@ function Submission({ userName }) {
 
     <div>
       <AppBar />
-      <Container className="submission-page">
+      <Container className="submission-content">
         <Stack spacing={2}>
           <TextField required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
           <TextField required id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />

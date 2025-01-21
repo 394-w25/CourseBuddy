@@ -23,7 +23,7 @@ function Account({ userName, userEmail, profilePic }) {
       <AppBar />
       <Container 
         maxWidth="sm"
-        style={{ textAlign: 'center', paddingTop: '20px', height: '100vh' }}
+        className="account-content"
       >
         <Box
           style={{
