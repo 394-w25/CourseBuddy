@@ -8,6 +8,7 @@ import {
 } from '../../../services/friendService';
 import AppBar from '../../AppBar/AppBar';
 import NavigationBar from '../../NavigationBar/NavigationBar';
+import "./FriendRequests.css";
 
 
 function FriendRequests({ user }) {
@@ -38,7 +39,7 @@ function FriendRequests({ user }) {
   return (
     <div>
       <AppBar />
-      <Container style={{ paddingTop: '20px', height: '100vh' }}>
+      <Container className="friend-requests-content">
         <h2>Friend Requests</h2>
 
         <List>

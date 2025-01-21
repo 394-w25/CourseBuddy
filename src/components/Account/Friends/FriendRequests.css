@@ -1,0 +1,5 @@
+.friend-requests-content {
+    padding-top: 20px;
+    height: calc(100vh - 56px - 64px); /* This is the height of the viewport minus the height of the app bar and the bottom navigation bar */
+    margin-top: 3rem;
+}
