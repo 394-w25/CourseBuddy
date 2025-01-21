@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stack, Button, Alert, Container, TextField, Rating, Typography, Tab, Tabs, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
+import React, { useState } from 'react';
+import { Stack, Button, Alert, Container, TextField, Rating, Typography, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import AppBar from '../AppBar/AppBar';
 import "./Submission.css";
@@ -15,15 +15,15 @@ import { collection, addDoc } from "firebase/firestore";
 function Submission({ userName }) {
   const navigate = useNavigate();
 
-  const [title, setTitle] = React.useState("");
-  const [course, setCourse] = React.useState("");
-  const [quarter, setQuarter] = React.useState("");
-  const [year, setYear] = React.useState("");
-  const [body, setBody] = React.useState("");
-  const [rating, setRating] = React.useState(0);
-  const [professor, setProfessor] = React.useState("");
-  const [fillInFields, setFillInFields] = React.useState(false);
-  const [selectedButton, setSelectedButton] = React.useState(""); // Default to "Show Name"
+  const [title, setTitle] = useState("");
+  const [course, setCourse] = useState("");
+  const [quarter, setQuarter] = useState("");
+  const [year, setYear] = useState("");
+  const [body, setBody] = useState("");
+  const [rating, setRating] = useState(0);
+  const [professor, setProfessor] = useState("");
+  const [fillInFields, setFillInFields] = useState(false);
+  const [selectedButton, setSelectedButton] = useState("");
 
 
   async function handleSubmit() {

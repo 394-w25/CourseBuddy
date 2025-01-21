@@ -28,7 +28,7 @@ function Feed({friends}) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState();
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = useState(0);
 
   // useEffect runs every time the component is rendered
   useEffect(() => {
