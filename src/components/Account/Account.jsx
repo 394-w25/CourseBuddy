@@ -99,9 +99,6 @@ function Account({ userName, userEmail, profilePic, friends }) {
         <Divider style={{ margin: '20px 0' }} />
 
         <Box style={{ textAlign: 'left' }}>
-          <Typography variant="body1" style={{ marginBottom: '10px' }}>
-            <Switch defaultChecked color="primary" /> Make Public Account
-          </Typography>
           <Button
             variant="contained"
             color="error"
