@@ -1,33 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemText, Button, Container } from '@mui/material';
-import { fetchUserFriends, removeFriend } from '../../../services/friendService';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../utilities/firebase';
+import { removeFriend } from '../../../services/friendService';
 import AppBar from '../../AppBar/AppBar';
 import NavigationBar from '../../NavigationBar/NavigationBar';
 import "./Friends.css";
 
-function MyFriends({ user, friends, setFriends }) {
-
-  useEffect(() => {
-    if (!user) return;
-    loadFriends();
-  }, [user]);
-
-  const loadFriends = async () => {
-    const friendIds = await fetchUserFriends(user.uid);
-    const friendProfiles = await Promise.all(friendIds.map(async (fid) => {
-      const ref = doc(db, 'users', fid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        return { id: fid, ...snap.data() };
-      } else {
-        return { id: fid, displayName: 'Unknown', email: null };
-      }
-    }));
-    setFriends(friendProfiles);
-  };
-
+function MyFriends({ user, friends, loadFriends }) {
   const handleUnfriend = async (friendId) => {
     await removeFriend(user.uid, friendId);
     await loadFriends();

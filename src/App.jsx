@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -18,6 +18,9 @@ import MyFriends from './components/Account/Friends/MyFriends';
 import RatingHistory from './components/RatingHistory/RatingHistory';
 import Comment from './components/Comment/Comment';
 import SearchPage from './components/SearchPage/SearchPage';
+import { fetchUserFriends } from './services/friendService';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './utilities/firebase';
 
 // Toggle this to `true` in dev if you want to skip sign-in
 const DEV_MODE = false;
@@ -30,6 +33,24 @@ function App() {
   const [filteredPost, setFilteredPost] = useState([]);
 
   const isAuthenticated = DEV_MODE || user;
+
+  const loadFriends = async () => {
+    const friendIds = await fetchUserFriends(user.uid);
+    const friendProfiles = await Promise.all(friendIds.map(async (fid) => {
+      const ref = doc(db, 'users', fid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        return { id: fid, ...snap.data() };
+      }
+      return { id: fid, displayName: 'Unknown', email: null };
+    }));
+    setFriends(friendProfiles);
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    loadFriends();
+  }, [user]);
 
   return (
     <Container className="app-background" maxWidth="sm" disableGutters>
@@ -80,7 +101,7 @@ function App() {
             path="/my-friends"
             element={
               isAuthenticated
-                ? <MyFriends user={user} friends={friends} setFriends={setFriends} />
+                ? <MyFriends user={user} friends={friends} loadFriends={loadFriends} />
                 : <Navigate to="/" />
             }
           />
