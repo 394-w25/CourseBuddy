@@ -34,7 +34,7 @@ function RatingHistory({ userName, profilePic, filteredPost }) {
                                 .slice()
                                 .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
                                 <div key={post.id}>
-                                <Post post={post} friends={fake_friends} />
+                                <Post post={post} friends={fake_friends} postAnonymously={false}/>
                                 </div>)
                             )
                         }

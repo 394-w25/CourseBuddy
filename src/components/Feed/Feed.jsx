@@ -28,6 +28,7 @@ function Feed({friends}) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState();
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [tabValue, setTabValue] = React.useState(0);
 
   // useEffect runs every time the component is rendered
   useEffect(() => {
@@ -54,11 +55,9 @@ function Feed({friends}) {
       setFilteredPosts(posts) // retrieve all if the search bar isn't being used
     }
   }, [search, posts]); // must define the states that cause re-rendering
-
-    const [value, setValue] = React.useState(0);
   
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTabValue(newValue);
 
     if (newValue === 0) {
       // public
@@ -72,7 +71,7 @@ function Feed({friends}) {
   return (
     <div>
       <AppBar />
-        <Tabs className="friends-public-switch" value={value} onChange={handleChange} centered>
+        <Tabs className="friends-public-switch" value={tabValue} onChange={handleChange} centered>
           <Tab label="Public" icon={<PublicIcon />} />
           <Tab label="Friends" icon={<PeopleIcon />} />
         </Tabs>
@@ -86,7 +85,7 @@ function Feed({friends}) {
                       .slice()
                       .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
                       <div key={post.id}>
-                        <Post post={post} friends={fake_friends} />
+                        <Post post={post} friends={fake_friends} postAnonymously={tabValue == 1 ? false : post.anonymous ? true : false}/>
                       </div>)
                     )
                 }
