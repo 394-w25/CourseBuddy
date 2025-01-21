@@ -11,7 +11,6 @@ import { Container } from '@mui/material';
 
 // Pages & Components
 import SignIn from './components/SignIn/SignIn';
-import PublicFeed from './components/PublicFeed/PublicFeed';
 import Feed from './components/Feed/Feed';
 import Submission from './components/Submission/Submission';
 import Account from './components/Account/Account';
@@ -50,14 +49,10 @@ function App() {
               }
             />
           ) : (
-            <Route path="/" element={<Feed />} />
+            <Route path="/" element={<Feed friends={friends} />} />
           )}
 
           {/* Protected routes => must be logged in or dev */}
-          <Route
-            path="/public"
-            element={isAuthenticated ? <PublicFeed /> : <Navigate to="/" />}
-          />
           <Route
             path="/feed"
             element={isAuthenticated ? <Feed /> : <Navigate to="/" />}
