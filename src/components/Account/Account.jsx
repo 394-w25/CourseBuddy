@@ -2,12 +2,14 @@ import { Box, Container, Typography, Button, Switch, Divider, Card, CardContent 
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import AppBar from '../AppBar/AppBar';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import "./Account.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../utilities/firebase";
 
-function Account({ userName, userEmail, profilePic, friends }) {
+function Account({ userName, userEmail, profilePic, friends, filteredPost, setFilteredPost }) {
   const navigate = useNavigate();
 
   const signOut = () => {
@@ -17,6 +19,34 @@ function Account({ userName, userEmail, profilePic, friends }) {
   const handleFriendsClick = () => {
     navigate('/my-friends');
   };
+
+  async function getPostsFromDB() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const posts = [];
+        querySnapshot.forEach((doc) => {
+            if (doc.data().username === userName?.displayName){
+                posts.push({ id: doc.id, ...doc.data() });
+            }
+        });
+        return posts;
+    } catch (error) {
+        console.log("Error: ", error);
+    }
+
+}
+
+useEffect(() => {
+    async function fetchPosts() {
+        try {
+            const fetchedPosts = await getPostsFromDB();
+            setFilteredPost(fetchedPosts);
+        } catch (error) {
+            console.error("Error fetching posts: ", error);
+        }
+    }
+    fetchPosts();
+}, [userName]);
 
   return (
     <div>
@@ -70,7 +100,7 @@ function Account({ userName, userEmail, profilePic, friends }) {
           <Card style={{ width: '45%', backgroundColor:'#BCBCBC' }}>
             <CardContent>
               <Typography variant="subtitle1">Classes Rated:</Typography>
-              <Typography variant="h5" style={{ fontWeight: 'bold' }}>20</Typography>
+              <Typography variant="h5" style={{ fontWeight: 'bold' }}>{filteredPost.length}</Typography>
             </CardContent>
           </Card>
           

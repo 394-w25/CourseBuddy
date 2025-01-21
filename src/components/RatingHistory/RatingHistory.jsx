@@ -1,7 +1,4 @@
 import Post from '../Post/Post';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../utilities/firebase";
-import { useState, useEffect } from 'react';
 import { Container, Box, Stack, Typography } from '@mui/material';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
@@ -9,39 +6,10 @@ import './RatingHistory.css';
 import Avatar from '@mui/material/Avatar';
 
 
-function RatingHistory({ userName, profilePic }) {
-    const [filteredPost, setFilteredPost] = useState([]);
+function RatingHistory({ userName, profilePic, filteredPost }) {
 
     const fake_friends = ["Alice", "Bob", "Charlie", "David"];
-
-    async function getPostsFromDB() {
-        try {
-            const querySnapshot = await getDocs(collection(db, "posts"));
-            const posts = [];
-            querySnapshot.forEach((doc) => {
-                if (doc.data().username === userName?.displayName){
-                    posts.push({ id: doc.id, ...doc.data() });
-                }
-            });
-            return posts;
-        } catch (error) {
-            console.log("Error: ", error);
-        }
-    
-    }
-
-    useEffect(() => {
-        async function fetchPosts() {
-            try {
-                const fetchedPosts = await getPostsFromDB();
-                setFilteredPost(fetchedPosts);
-                // console.log("Filtered posts: ", fetchedPosts);
-            } catch (error) {
-                console.error("Error fetching posts: ", error);
-            }
-        }
-        fetchPosts();
-    }, [userName]); // Add userName as a dependency to prevent it from running infinitely    
+ // Add userName as a dependency to prevent it from running infinitely    
 
     return (
         <div>

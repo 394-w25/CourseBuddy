@@ -29,6 +29,7 @@ function App() {
   const [userEmail, setUserEmail] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
   const [friends, setFriends] = useState([]);
+  const [filteredPost, setFilteredPost] = useState([]);
 
   const isAuthenticated = DEV_MODE || user;
 
@@ -75,6 +76,8 @@ function App() {
                     userEmail={userEmail}
                     profilePic={profilePic}
                     friends={friends}
+                    filteredPost={filteredPost}
+                    setFilteredPost={setFilteredPost}
                   />
                 : <Navigate to="/" />
             }
@@ -99,7 +102,7 @@ function App() {
             path="/rating-history"
             element={
               isAuthenticated
-                ? <RatingHistory userName={user} profilePic={profilePic} />
+                ? <RatingHistory userName={user} profilePic={profilePic} filteredPost={filteredPost}/>
                 : <Navigate to="/" />
             }
           />

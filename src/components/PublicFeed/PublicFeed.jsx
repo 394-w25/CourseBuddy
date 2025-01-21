@@ -14,18 +14,6 @@ import {db} from "../../utilities/firebase";
 import "./PublicFeed.css";
 import AppBar from '../AppBar/AppBar';
 
-const fake_post = {
-    id: 1, // automatically assigned
-    title: "I LOVE CS394",
-    course_name: "CS 394",
-    username: "john12nu", // no need to fill this out in the submission form
-    quarter: "Fall 2024",
-    body: "I had such an amazing time taking CS394. Highly recommend!",
-    rating: "5",
-    professor: "Prof. Riesbeck",
-    date: "January 10th, 2024", // use JS object to retrieve the date posted
-};
-
 async function getPostsFromDB() {
   // get all the posts from the database
 
@@ -81,12 +69,12 @@ function PublicFeed() {
   return (
     <div>
       <AppBar />
-      <Tabs value={value} onChange={handleChange} centered>
+      <Tabs className="friends-public-switch" value={value} onChange={handleChange} centered>
         <Tab label="Friends" icon={<PeopleIcon />} component={Link} to="/feed" />
         <Tab label="Public" icon={<PublicIcon />} component={Link} to="/public" />
       </Tabs>
+      <Container className="feed-content" maxWidth="sm">
       <CourseSelect searchFunc={setSearch} />
-      <Container maxWidth="sm">
         <Box paddingBottom="30px">
           <Stack spacing={3}>
               { filteredposts.length === 0 ?
