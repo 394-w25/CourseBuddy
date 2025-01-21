@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import "./Account.css";
 
-function Account({ userName, userEmail, profilePic }) {
+function Account({ userName, userEmail, profilePic, friends }) {
   const navigate = useNavigate();
 
   const signOut = () => {
@@ -80,7 +80,7 @@ function Account({ userName, userEmail, profilePic }) {
           >
             <CardContent>
               <Typography variant="subtitle1">Friends:</Typography>
-              <Typography variant="h5" style={{ fontWeight: 'bold' }}>87</Typography>
+              <Typography variant="h5" style={{ fontWeight: 'bold' }}>{friends.length}</Typography>
             </CardContent>
           </Card>
         </Box>

@@ -28,6 +28,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
+  const [friends, setFriends] = useState([]);
 
   const isAuthenticated = DEV_MODE || user;
 
@@ -73,6 +74,7 @@ function App() {
                     userName={user}
                     userEmail={userEmail}
                     profilePic={profilePic}
+                    friends={friends}
                   />
                 : <Navigate to="/" />
             }
@@ -89,7 +91,7 @@ function App() {
             path="/my-friends"
             element={
               isAuthenticated
-                ? <MyFriends user={user} />
+                ? <MyFriends user={user} friends={friends} setFriends={setFriends} />
                 : <Navigate to="/" />
             }
           />

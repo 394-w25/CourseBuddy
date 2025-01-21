@@ -7,8 +7,7 @@ import AppBar from '../../AppBar/AppBar';
 import NavigationBar from '../../NavigationBar/NavigationBar';
 import "./Friends.css";
 
-function MyFriends({ user }) {
-  const [friends, setFriends] = useState([]);
+function MyFriends({ user, friends, setFriends }) {
 
   useEffect(() => {
     if (!user) return;
