@@ -4,125 +4,182 @@ import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import { Container, Box, TextField, List, ListItem, ListItemText, Button, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from "../../utilities/firebase";
-import { collection, getDocs, updateDoc, arrayUnion, getDoc, doc } from "firebase/firestore";
+import {
+  listenIncomingRequests,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  searchUsersInFirestore,
+  sendFriendRequest,
+  cancelFriendRequestIfPending,
+  findPendingRequestDoc,
+  fetchUserFriends,
+  removeFriend
+} from '../../services/friendService';
 import Avatar from '@mui/material/Avatar';
 
-async function getUsersFromDB() {
-  // get all the users from the database
-  const querySnapshot = await getDocs(collection(db, "users"));
-  const users = [];
-  querySnapshot.forEach((doc) => {
-      users.push({id: doc.id, ...doc.data()});
-  });
-  return users;
-}
-
-function SearchPage({userUID}) {
+function SearchPage({ userUID }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [users, setUsers] = useState([]);
-  // user information about current user (me) 
   const [me, setMe] = useState(null);
+  const [requests, setRequests] = useState([]);
 
-  // useEffect runs every time the component is rendered
   useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const fetchedUsers = await getUsersFromDB();
-        setUsers(fetchedUsers);
-      } catch (error) {
-        console.error("Error fetching users: ", error);
+    if (!userUID) return;
+    subscribeMe();
+    subscribeRequests();
+  }, [userUID]);
+
+  useEffect(() => {
+    if (!me || results.length === 0) return;
+    const updated = results.map((r) => {
+      const isFriend = me.friends.includes(r.id);
+      return { ...r, isFriend };
+    });
+    setResults(updated);
+  }, [me]);
+
+  const subscribeMe = () => {
+    const unsub = onSnapshot(doc(db, "users", userUID), (snap) => {
+      if (snap.exists()) {
+        setMe({ id: userUID, ...snap.data() });
       }
-    }
-    fetchUsers();
+    });
+    return unsub;
+  };
 
-    async function fetchMe() {
-      try {
-        const meRef = doc(db, "users", userUID);
-        const res = await getDoc(meRef);
-
-        setMe(res.data());
-      } catch (error) {
-        console.error("Error fetching users: ", error);
+  const subscribeRequests = () => {
+    const unsub = listenIncomingRequests(userUID, async (raw) => {
+      const augmented = [];
+      for (const req of raw) {
+        const fromRef = doc(db, 'users', req.from);
+        const snap = await getDoc(fromRef);
+        let fromDisplay = req.from;
+        if (snap.exists()) {
+          const data = snap.data();
+          fromDisplay = data.displayName || data.email || req.from;
+        }
+        augmented.push({ ...req, fromDisplay });
       }
-    }
-    fetchMe();
-  }, []);
+      setRequests(augmented);
+    });
+    return () => unsub();
+  };
 
-  const handleSearch = (event) => {
-    const value = event.target.value;
-    setQuery(value);
+  const handleAccept = async (req) => {
+    await acceptFriendRequest(req.id, req.from, req.to);
+  };
 
-    if (value.trim() === '') {
+  const handleReject = async (req) => {
+    await rejectFriendRequest(req.id);
+  };
+
+  const handleSearch = async (e) => {
+    const val = e.target.value;
+    setQuery(val);
+    if (!val.trim()) {
       setResults([]);
       return;
     }
-
-    const filtered = users.filter(user => user.displayName.toLowerCase().includes(value.toLowerCase()))
-      .sort((a, b) => {
-        if (a.toLowerCase().startsWith(value.toLowerCase())) return -1;
-        if (b.toLowerCase().startsWith(value.toLowerCase())) return 1;
-        return 0;
+    const found = await searchUsersInFirestore(val);
+    const filtered = found.filter(u => u.id !== userUID);
+    const myFriends = me?.friends || [];
+    const final = [];
+    for (const stranger of filtered) {
+      const pendingDoc = await findPendingRequestDoc(userUID, stranger.id);
+      const isRequested = !!pendingDoc;
+      const isFriend = myFriends.includes(stranger.id);
+      final.push({
+        ...stranger,
+        requestDoc: pendingDoc ? pendingDoc.docId : null,
+        isRequested,
+        isFriend
       });
-
-    setResults(filtered);
+    }
+    setResults(final);
   };
 
-  async function sendFriendRequest (friend) {
-    try {
-      const meRef = doc(db, "users", userUID);
+  const getButtonLabel = (usr) => {
+    if (usr.isFriend) return "Unfriend";
+    if (usr.isRequested) return "Requested";
+    return "Add Friend";
+  };
 
-      await updateDoc(meRef, {
-        friendRequests: arrayUnion(friend.id)
-      });
-
-      console.log(`Successfully added ${friend.id} to friend requests.`);
-
-      setMe((prevMe) => ({
-        ...prevMe,
-        friendRequests: [...prevMe.friendRequests, friend.id],
-      }));
-    } catch (error) {
-      console.error('Error sending friend request:', error);
+  const handleButtonClick = async (usr, index) => {
+    if (!me) return;
+    if (usr.isFriend) {
+      await removeFriend(userUID, usr.id);
+      await removeFriend(usr.id, userUID);
+      const updated = [...results];
+      updated[index] = { ...updated[index], isFriend: false };
+      setResults(updated);
+      return;
     }
-  }
+    if (!usr.isRequested) {
+      const docId = await sendFriendRequest(userUID, usr.id);
+      const updated = [...results];
+      updated[index] = { ...updated[index], isRequested: true, requestDoc: docId || null };
+      setResults(updated);
+    } else {
+      if (usr.requestDoc) {
+        await cancelFriendRequestIfPending(usr.requestDoc);
+        const updated = [...results];
+        updated[index] = { ...updated[index], isRequested: false, requestDoc: null };
+        setResults(updated);
+      }
+    }
+  };
 
   return (
     <div>
       <AppBar />
       <Container className="search-content" maxWidth="sm">
         <Box my={4}>
-          <TextField 
-            fullWidth 
-            label="Find your friends on CourseBuddy" 
-            variant="outlined" 
-            value={query} 
+          <TextField
+            fullWidth
+            label="Find your friends on CourseBuddy"
+            variant="outlined"
+            value={query}
             onChange={handleSearch}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              },
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
           <List>
-            {results.filter(stranger => stranger.displayName !== me.displayName).map((stranger, index) => (
-              <ListItem key={index} button>
+            {results.map((stranger, index) => (
+              <ListItem key={stranger.id} button>
                 <Avatar className="profile-pic" src={stranger.photoURL} />
                 <ListItemText primary={stranger.displayName} />
-                {me.friends.includes(stranger.id) ? 
-                    <Button variant="outlined">Following</Button> :
-                    (me.friendRequests.includes(stranger.id) ?
-                    <Button variant="outlined">Requested</Button> :
-                    <Button variant="outlined" onClick={() => sendFriendRequest(stranger)}>Request</Button>)}
+                <Button
+                  variant="outlined"
+                  onClick={() => handleButtonClick(stranger, index)}
+                >
+                  {getButtonLabel(stranger)}
+                </Button>
               </ListItem>
             ))}
           </List>
         </Box>
+        <hr />
+        <h2>Incoming Requests</h2>
+        <List>
+          {requests.length === 0 && <p>No pending requests</p>}
+          {requests.map((req) => (
+            <ListItem key={req.id}>
+              <ListItemText
+                primary={`From: ${req.fromDisplay}`}
+                secondary={`Status: ${req.status}`}
+              />
+              <Button variant="contained" onClick={() => handleAccept(req)}>Accept</Button>
+              <Button variant="outlined" onClick={() => handleReject(req)}>Reject</Button>
+            </ListItem>
+          ))}
+        </List>
       </Container>
       <NavigationBar />
     </div>
