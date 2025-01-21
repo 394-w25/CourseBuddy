@@ -55,7 +55,7 @@ function App() {
           {/* Protected routes => must be logged in or dev */}
           <Route
             path="/feed"
-            element={isAuthenticated ? <Feed /> : <Navigate to="/" />}
+            element={isAuthenticated ? <Feed friends={friends} /> : <Navigate to="/" />}
           />
           <Route 
             path="/submission" 

@@ -65,7 +65,7 @@ function Feed({friends}) {
       setFilteredPosts(posts);
     } else {
       // friends
-      setFilteredPosts(posts.filter(post => friends.includes(post.username)));
+      setFilteredPosts(posts.filter(post => friends.some(friend => friend.displayName === post.username)));
     }
   };
 
