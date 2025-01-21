@@ -14,7 +14,6 @@ import SignIn from './components/SignIn/SignIn';
 import Feed from './components/Feed/Feed';
 import Submission from './components/Submission/Submission';
 import Account from './components/Account/Account';
-import FriendRequests from './components/Account/Friends/FriendRequests';
 import MyFriends from './components/Account/Friends/MyFriends';
 import RatingHistory from './components/RatingHistory/RatingHistory';
 import Comment from './components/Comment/Comment';
@@ -74,14 +73,6 @@ function App() {
                     filteredPost={filteredPost}
                     setFilteredPost={setFilteredPost}
                   />
-                : <Navigate to="/" />
-            }
-          />
-          <Route
-            path="/friend-requests"
-            element={
-              isAuthenticated
-                ? <FriendRequests user={user} />
                 : <Navigate to="/" />
             }
           />

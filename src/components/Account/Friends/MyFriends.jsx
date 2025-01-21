@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { List, ListItem, ListItemText, Button, Container } from '@mui/material';
 import { fetchUserFriends, removeFriend } from '../../../services/friendService';
 import { doc, getDoc } from 'firebase/firestore';

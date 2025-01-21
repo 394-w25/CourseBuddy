@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import "./AppBar.css";
 
 function AppBar() {
@@ -10,7 +10,7 @@ function AppBar() {
 
   let title = "CourseBuddy";
   let showBackButton = false;
-  let showFriendRequestsIcon = false;
+  let showMyFriendsIcon = false;
 
   if (location.pathname.startsWith('/feed')) {
     title = "CourseBuddy";
@@ -18,25 +18,23 @@ function AppBar() {
     title = "New Review";
   } else if (location.pathname.startsWith('/account')) {
     title = "My Account";
-    showFriendRequestsIcon = true;
+  } else if (location.pathname.startsWith('/search')) {
+    title = "Friends";
+    showMyFriendsIcon = true;
   }
 
-  if (location.pathname === '/friend-requests') {
-    title = "Friend Requests";
-    showBackButton = true;
-    showFriendRequestsIcon = false;
-  } else if (location.pathname === '/my-friends') {
+  if (location.pathname === '/my-friends') {
     title = "My Friends";
     showBackButton = true;
-    showFriendRequestsIcon = false;
+    showMyFriendsIcon = false;
   }
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
-  const handleFriendRequestsClick = () => {
-    navigate('/friend-requests');
+  const handleMyFriendsClick = () => {
+    navigate('/my-friends');
   };
 
   return (
@@ -46,12 +44,11 @@ function AppBar() {
           <ArrowBackIcon />
         </button>
       )}
-
       <h1 className="app-bar-title">{title}</h1>
 
-      {showFriendRequestsIcon && (
-        <button className="icon-button" onClick={handleFriendRequestsClick}>
-          <PersonSearchIcon />
+      {showMyFriendsIcon && (
+        <button className="icon-button" onClick={handleMyFriendsClick}>
+          <PeopleAltIcon />
         </button>
       )}
     </div>

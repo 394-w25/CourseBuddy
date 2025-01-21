@@ -11,8 +11,8 @@ function NavigationBar() {
     return (
         <BottomNavigation className="nav-bar" showLabels>
         <BottomNavigationAction label="Feed" icon={<RestoreIcon />} component={Link} to="/feed" />
-        <BottomNavigationAction label="Friends" icon={<PersonSearchIcon />} component={Link} to="/search" />
         <BottomNavigationAction label="Post" icon={<RateReviewIcon />} component={Link} to="/submission" />
+        <BottomNavigationAction label="Friends" icon={<PersonSearchIcon />} component={Link} to="/search" />
         <BottomNavigationAction label="Profile" icon={<AccountCircleIcon />} component={Link} to="/account" />
         </BottomNavigation>
       );
