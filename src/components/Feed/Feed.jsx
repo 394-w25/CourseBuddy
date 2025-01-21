@@ -69,7 +69,6 @@ function Feed({friends}) {
     }
   };
 
-  console.log(posts[0]);
   return (
     <div>
       <AppBar />
@@ -79,7 +78,7 @@ function Feed({friends}) {
         </Tabs>
         <Container className="feed-content" maxWidth="sm">
         <CourseSelect searchFunc={setSearch} />
-          <Box paddingBottom="30px">
+          <Box paddingBottom="80px">
             <Stack spacing={3}>
                 {filteredPosts.length === 0 ?
                   (<p>No results found...</p>) :
