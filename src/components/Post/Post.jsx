@@ -64,7 +64,7 @@ function Post({ post, friends }) {
 
           <div className="user-rating-section">
             <Typography variant="body2" className="user-rating-label">
-              <strong>{post.username}</strong> rated this course
+              <strong>{post.anonymous ? "Anonymous" : post.username}</strong> rated this course
             </Typography>
             <div className="user-star-icons">
               {renderUserStars(post.rating ?? 0)}
@@ -75,7 +75,7 @@ function Post({ post, friends }) {
             {post.title}
           </Typography>
           <Typography variant="body2" className="post-subheader">
-            Posted by <strong>{post.username}</strong> on {post.date.toDate().toDateString()}
+            Posted by <strong>{post.anonymous ? "Anonymous" : post.username}</strong> on {post.date.toDate().toDateString()}
           </Typography>
           <Typography variant="body1" className="post-body">
             {post.body}

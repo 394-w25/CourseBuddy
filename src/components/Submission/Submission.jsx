@@ -1,13 +1,9 @@
 import React from 'react';
-import { Stack, Button, Alert, Container, TextField, Rating, Typography } from '@mui/material';
+import { Stack, Button, Alert, Container, TextField, Rating, Typography, Tab, Tabs, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import AppBar from '../AppBar/AppBar';
 import "./Submission.css";
 import { useNavigate } from "react-router-dom";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 // Firebase
 // Source: How to add/set documents. https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -27,6 +23,8 @@ function Submission({ userName }) {
   const [rating, setRating] = React.useState(0);
   const [professor, setProfessor] = React.useState("");
   const [fillInFields, setFillInFields] = React.useState(false);
+  const [selectedButton, setSelectedButton] = React.useState(""); // Default to "Show Name"
+
 
   async function handleSubmit() {
     try {
@@ -39,10 +37,11 @@ function Submission({ userName }) {
         rating: rating,
         professor: professor,
         username: userName.displayName,
-        date: new Date()
+        date: new Date(),
+        anonymous: selectedButton === 'anonymous' ? true : false
       };
 
-      if (!title || !course || !body || !professor || !rating) {
+      if (!title || !course || !body || !professor || !rating || !selectedButton ) {
         setFillInFields(true);
       } else {
         await addDoc(collectionRef, post);
@@ -54,6 +53,12 @@ function Submission({ userName }) {
       console.error('Error adding post:', error);
     }
   }
+
+  const handleButtonClick = (buttonType) => {
+    setSelectedButton(buttonType);
+    // Save the data or handle side effects here
+    console.log(`Selected: ${buttonType}`);
+  };
 
   return (
 
@@ -105,6 +110,20 @@ function Submission({ userName }) {
           <div className="rating-box">
             <Typography variant="h6" component="legend">Course Rating</Typography>
             <Rating id="rating" name="half-rating" size="large" defaultValue={0} precision={0.5} onChange={(_, newValue) => setRating(newValue)} />
+          </div>
+          <div className="anonymous-buttons">
+            <Button
+              variant={selectedButton === 'showName' ? 'contained' : 'outlined'}
+              onClick={() => handleButtonClick('showName')}
+            >
+              Show Name
+            </Button>
+            <Button
+              variant={selectedButton === 'anonymous' ? 'contained' : 'outlined'}
+              onClick={() => handleButtonClick('anonymous')}
+            >
+              Anonymous
+            </Button>
           </div>
           {(fillInFields) ? <Alert variant="filled" severity="warning">Fill in all the fields before submitting.</Alert> : null}
           <Button variant="contained" onClick={handleSubmit} >Submit</Button>
