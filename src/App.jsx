@@ -19,6 +19,7 @@ import FriendRequests from './components/Account/Friends/FriendRequests';
 import MyFriends from './components/Account/Friends/MyFriends';
 import RatingHistory from './components/RatingHistory/RatingHistory';
 import Comment from './components/Comment/Comment';
+import SearchPage from './components/SearchPage/SearchPage';
 
 // Toggle this to `true` in dev if you want to skip sign-in
 const DEV_MODE = false;
@@ -63,6 +64,7 @@ function App() {
             path="/submission" 
             element={isAuthenticated ? <Submission userName={user} /> : <Navigate to="/" />} 
           />
+          <Route path="/search" element={user ? <SearchPage userUID={user.uid} /> : <Navigate to="/" />} />
           <Route
             path="/account"
             element={
