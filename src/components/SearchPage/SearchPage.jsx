@@ -14,7 +14,6 @@ import {
   sendFriendRequest,
   cancelFriendRequestIfPending,
   findPendingRequestDoc,
-  fetchUserFriends,
   removeFriend
 } from '../../services/friendService';
 import Avatar from '@mui/material/Avatar';
