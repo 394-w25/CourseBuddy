@@ -1,145 +1,91 @@
-import { Box, Container, Typography, Button, Switch, Divider, Card, CardContent } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import NavigationBar from '../NavigationBar/NavigationBar';
-import AppBar from '../AppBar/AppBar';
-import React, {useEffect} from 'react';
+// Account.jsx
+import React, { useEffect, useState } from 'react';
+import { Container, Typography, Button, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../../utilities/firebase';
+import AppBar from '../AppBar/AppBar';
+import NavigationBar from '../NavigationBar/NavigationBar';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import "./Account.css";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../utilities/firebase";
 
-function Account({ userName, userEmail, profilePic, friends, filteredPost, setFilteredPost }) {
+function Account({
+  userName,
+  userEmail,
+  profilePic,
+  filteredPost,
+  setFilteredPost
+}) {
   const navigate = useNavigate();
+  const [friendCount, setFriendCount] = useState(0);
 
   const signOut = () => {
     navigate("/");
   };
 
-  const handleFriendsClick = () => {
-    navigate('/my-friends');
-  };
-
-  async function getPostsFromDB() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "posts"));
-        const posts = [];
-        querySnapshot.forEach((doc) => {
-            if (doc.data().username === userName?.displayName){
-                posts.push({ id: doc.id, ...doc.data() });
-            }
-        });
-        return posts;
-    } catch (error) {
-        console.log("Error: ", error);
-    }
-
-}
-
-useEffect(() => {
-    async function fetchPosts() {
-        try {
-            const fetchedPosts = await getPostsFromDB();
-            setFilteredPost(fetchedPosts);
-        } catch (error) {
-            console.error("Error fetching posts: ", error);
-        }
-    }
-    fetchPosts();
-}, [userName]);
+  useEffect(() => {
+    if (!userName?.uid) return;
+    const unsub = onSnapshot(doc(db, "users", userName.uid), snap => {
+      if (!snap.exists()) return;
+      const data = snap.data() || {};
+      const arr = data.friends || [];
+      setFriendCount(arr.length);
+    });
+    return () => unsub();
+  }, [userName]);
 
   return (
-    <div>
+    <div className="account-page">
       <AppBar />
-      <Container 
-        maxWidth="sm"
-        className="account-content"
-      >
-        <Box
-          style={{
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            backgroundColor: '#e0e0e0',
-            display: 'inline-block',
-            marginBottom: '20px',
-          }}
+      <Container maxWidth="sm" className="account-container">
+        <div className="account-top-card">
+          <div className="top-card-row">
+            <Avatar src={profilePic} className="account-avatar" />
+            <div className="stats-right">
+              <div
+                className="stat-block"
+                onClick={() => navigate('/rating-history')}
+              >
+                <span className="stat-number">{filteredPost.length}</span>
+                <span className="stat-label">Reviews</span>
+              </div>
+              <div
+                className="stat-block"
+                onClick={() => navigate('/my-friends')}
+              >
+                <span className="stat-number">{friendCount}</span>
+                <span className="stat-label">Friends</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="user-info-section">
+            <Typography className="user-name">
+              {userName?.displayName || "Unknown User"}
+            </Typography>
+            <Typography className="user-email">
+              {userEmail || "No email available"}
+            </Typography>
+          </div>
+        </div>
+
+        <Button
+          variant="contained"
+          className="liked-reviews-btn"
+          endIcon={<FavoriteBorderIcon />}
         >
-          <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
-        </Box>
+          Liked Reviews
+        </Button>
 
-        <Box className="account-details">
-          <Typography
-            variant="body1"
-            style={{
-              fontWeight: 'bold',
-              backgroundColor: '#2196f3',
-              color: 'white',
-              padding: '10px',
-              borderRadius: '5px'
-            }}
-          >
-            {"Name: "}{userName?.displayName || "Unknown User"}
-          </Typography>
-          <Typography
-            variant="body1"
-            style={{
-              fontWeight: 'bold',
-              backgroundColor: '#4caf50',
-              color: 'white',
-              padding: '10px',
-              borderRadius: '5px',
-              marginTop: '10px'
-            }}
-          >
-            {"Email: "}{userEmail || "No email available"}
-          </Typography>
-        </Box>
-
-        <Box style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-          <Card style={{ width: '45%', backgroundColor:'#BCBCBC' }}>
-            <CardContent>
-              <Typography variant="subtitle1">Classes Rated:</Typography>
-              <Typography variant="h5" style={{ fontWeight: 'bold' }}>{filteredPost.length}</Typography>
-            </CardContent>
-          </Card>
-          
-          <Card
-            style={{ width: '45%', backgroundColor:'#BCBCBC', cursor: 'pointer' }}
-            onClick={handleFriendsClick}
-          >
-            <CardContent>
-              <Typography variant="subtitle1">Friends:</Typography>
-              <Typography variant="h5" style={{ fontWeight: 'bold' }}>{friends.length}</Typography>
-            </CardContent>
-          </Card>
-        </Box>
-
-        <Divider style={{ margin: '20px 0' }} />
-        <Box>
-          <Button
-            variant="outlined"
-            endIcon={<EditIcon />}
-            onClick={() => navigate('/rating-history')}
-            style={{ marginBottom: '10px', width: '100%' }}
-          >
-            View Rating History
-          </Button>
-        </Box>
-        <Divider style={{ margin: '20px 0' }} />
-
-        <Box style={{ textAlign: 'left' }}>
-          <Button
-            variant="contained"
-            color="error"
-            style={{ marginTop: '20px', width: '100%', marginBottom: '20px' }}
-            onClick={signOut}
-          >
-            Sign Out
-          </Button>
-        </Box>
+        <Button
+          variant="contained"
+          color="error"
+          className="signout-btn"
+          onClick={signOut}
+        >
+          Sign Out
+        </Button>
       </Container>
-
       <NavigationBar />
     </div>
   );

@@ -1,25 +1,20 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  Chip,
-  Avatar
-} from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { Avatar, Chip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import "./Post.css";
-import CardActionArea from '@mui/material/CardActionArea';
-import { useNavigate } from "react-router-dom";
 
 const courseClassMap = {
-  CS: "chip-course-cs",
-  PHYSICS: "chip-course-physics",
-  GEN_ENG: "chip-course-gen_eng",
+  CS: "post-bar-cs",
+  PHYSICS: "post-bar-physics",
+  GEN_ENG: "post-bar-gen_eng",
 };
 
-function getCourseChipClass(courseName) {
-  const upper = courseName.toUpperCase();
+function getCourseBarClass(courseName) {
+  const upper = (courseName || "").toUpperCase();
   for (const prefix in courseClassMap) {
     if (upper.startsWith(prefix)) {
       return courseClassMap[prefix];
@@ -28,91 +23,95 @@ function getCourseChipClass(courseName) {
   return "";
 }
 
-function getQuarterChipClass(quarter) {
-  const lower = quarter.toLowerCase();
-  if (lower.includes("spring")) return "chip-quarter-spring";
-  if (lower.includes("fall")) return "chip-quarter-fall";
-  if (lower.includes("winter")) return "chip-quarter-winter";
-  if (lower.includes("summer")) return "chip-quarter-summer";
+function getQuarterClass(quarter) {
+  const lower = (quarter || "").toLowerCase();
+  if (lower.includes("summer")) return "post-quarter-summer";
+  if (lower.includes("winter")) return "post-quarter-winter";
+  if (lower.includes("fall")) return "post-quarter-fall";
+  if (lower.includes("spring")) return "post-quarter-spring";
   return "";
 }
 
-function Post({ post, friends, postAnonymously }) {
-  const navigate = useNavigate();
-  const renderUserStars = (rating) => {
-    const filledStars = Math.floor(rating);
-    const starsArray = [];
-    for (let i = 0; i < filledStars; i++) {
-      starsArray.push(<StarIcon key={`u-filled-${i}`} className="star-icon-user" />);
-    }
-    for (let j = filledStars; j < 5; j++) {
-      starsArray.push(<StarBorderIcon key={`u-empty-${j}`} className="star-icon-user" />);
-    }
-    return starsArray;
-  };
-
-  return (
-    // Q: how to make the card clickable and navigate to comment page?
-    <Card className="post-card" onClick={() => navigate(`/comment/${post.id}`)}>
-      <CardActionArea>
-        <CardContent>
-          <div className="chip-box">
-            <Chip label={post.course_name} className={getCourseChipClass(post.course_name)} />
-            <Chip label={post.quarter} className={getQuarterChipClass(post.quarter)} />
-            <Chip label={post.professor} className="chip-third" />
-          </div>
-
-          <div className="user-rating-section">
-            <Typography variant="body2" className="user-rating-label">
-              <strong>{postAnonymously ? "Anonymous" : post.username}</strong> rated this course
-            </Typography>
-            <div className="user-star-icons">
-              {renderUserStars(post.rating ?? 0)}
-            </div>
-          </div>
-
-          <Typography variant="h5" component="div" className="post-title">
-            {post.title}
-          </Typography>
-          <Typography variant="body2" className="post-subheader">
-            Posted by <strong>{postAnonymously ? "Anonymous" : post.username}</strong> on {post.date.toDate().toDateString()}
-          </Typography>
-          <Typography variant="body1" className="post-body">
-            {post.body}
-          </Typography>
-
-          <hr className="divider" />
-
-          <div className="bottom-row">
-            <div className="friends-section">
-              <Typography variant="body2" className="friends-text">
-                Friends who enrolled
-              </Typography>
-              <div className="friends-avatar">
-                {Object.values(friends).map((friend) => (
-                  <Avatar key={friend} aria-label="recipe">
-                    {friend[0]}
-                  </Avatar>
-                ))}
-              </div>
-            </div>
-
-            <div className="public-rating-container">
-              <Typography variant="body2" className="public-rating-label">
-                {(post.publicRatingCount ?? 1100).toLocaleString()} ratings
-              </Typography>
-              <div className="big-star-wrapper">
-                <StarIcon className="big-star-icon" />
-                <div className="big-star-text">
-                  {post.publicRating ?? 3.5}
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+function renderUserStars(rating) {
+  const full = Math.floor(rating);
+  return [...Array(5)].map((_, index) =>
+    index < full ? <StarIcon key={index} className="star-icon-user filled-user-star" /> : <StarBorderIcon key={index} className="star-icon-user empty-user-star" />
   );
 }
+
+function renderCourseStars(rating) {
+  const full = Math.floor(rating);
+  return [...Array(5)].map((_, index) =>
+    index < full ? <StarIcon key={index} className="star-icon-course filled-course-star" /> : <StarBorderIcon key={index} className="star-icon-course empty-course-star" />
+  );
+}
+
+function abbreviateCount(num) {
+  if (num < 1000) return num;
+  const val = Math.floor(num / 100) / 10;
+  return val < 10 ? `${val}k` : `${Math.round(val)}k`;
+}
+
+function Post({ post, isPublic }) {
+  const navigate = useNavigate();
+
+  // Show anonymous name only for public feed, otherwise show actual username
+  const userName = isPublic && post.anonymous ? "Anonymous" : post.username;
+
+  const userRating = post.rating ?? 0;
+  const dateStr = post.date.toDate().toDateString();
+  const publicRating = post.publicRating ?? 3.5;
+  const publicCount = abbreviateCount(post.publicRatingCount ?? 1100);
+  const friendCount = post.friendCount ?? 2;
+
+  return (
+    <div className="post-wrapper" onClick={() => navigate(`/comment/${post.id}`)}>
+      <div className={`post-top-bar ${getCourseBarClass(post.course_name)}`}>
+        <h3 className="post-course-name">{post.course_name}</h3>
+      </div>
+
+      <div className="post-body-container">
+        <div className="post-chips-row">
+          <Chip label={post.quarter} className={`post-chip ${getQuarterClass(post.quarter)}`} />
+          <Chip label={post.professor} className="post-chip" />
+        </div>
+
+        <div className="post-user-section">
+          <Avatar className="post-avatar" src={post.userPhotoURL || ""} />
+          <div className="post-user-info">
+            <div className="post-user-name">{userName}</div>
+            <div className="post-user-stars">{renderUserStars(userRating)}</div>
+          </div>
+        </div>
+
+        <div className="post-date">{dateStr}</div>
+        <div className="post-title">{post.title}</div>
+        <div className="post-body-text">{post.body}</div>
+
+        <hr className="post-divider" />
+
+        <div className="post-bottom-row">
+          <div className="post-course-ratings">
+            <div className="post-course-ratings-label">
+              <strong>{publicCount}</strong> students rated this course
+            </div>
+            <div className="post-course-stars">{renderCourseStars(publicRating)}</div>
+          </div>
+
+          <div className="post-friends-like">
+            <div className="post-friend-count">
+              <strong>{friendCount} friends</strong> took this course
+            </div>
+            <div className="post-icons">
+              <ModeCommentOutlinedIcon className="post-icon" />
+              <FavoriteBorderIcon className="post-icon" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 export default Post;

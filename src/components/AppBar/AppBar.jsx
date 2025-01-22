@@ -21,12 +21,14 @@ function AppBar() {
   } else if (location.pathname.startsWith('/search')) {
     title = "Friends";
     showMyFriendsIcon = true;
+  } else if (location.pathname.startsWith('/rating-history')) {
+    title = "My Reviews";
+    showBackButton = true;
   }
 
   if (location.pathname === '/my-friends') {
     title = "My Friends";
     showBackButton = true;
-    showMyFriendsIcon = false;
   }
 
   const handleBackClick = () => {

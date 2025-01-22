@@ -17,12 +17,6 @@ function RatingHistory({ userName, profilePic, filteredPost }) {
             <Container className='rating-history-page'>
 
                 <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
-                    <Box className="profile-box">
-
-                        <Avatar sx={{ width: 80, height: 80 }} src={profilePic} />
-                        <Typography variant="h5">{userName.displayName}</Typography> 
-                    </Box>
-                    <br />
                 </Container>
 
                 <Container maxWidth="sm">

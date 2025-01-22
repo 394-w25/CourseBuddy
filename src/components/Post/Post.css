@@ -1,127 +1,189 @@
-/* Alot of styling needs to be done */
-.post-card {
-  max-width: 400px !important;
-  padding: 8px !important;
-  margin: 8px auto !important;
-  background-color: #D9D9D9 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+/* Post.css */
+
+.post-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: 12px auto;
+  margin-bottom: -15px;
+  border-radius: 8px;
+  background-color: #D9D9D9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  overflow: hidden;
 }
 
-.chip-box {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-.chip-third,
-.chip-course-cs,
-.chip-course-physics,
-.chip-course-gen_eng,
-.chip-quarter-spring,
-.chip-quarter-fall,
-.chip-quarter-winter,
-.chip-quarter-summer {
-  font-size: 0.75rem !important;
-  height: 24px !important;
+.post-top-bar {
+  padding: 8px;
+  color: #fff;
 }
 
-.user-rating-section {
+.post-bar-cs {
+  background-color: #7593ff;
+}
+.post-bar-physics {
+  background-color: #e874ff;
+}
+.post-bar-gen_eng {
+  background-color: #ff6e70;
+}
+
+.post-course-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.post-body-container {
+  background-color: #D9D9D9;
+  padding: 8px;
+}
+
+.post-chips-row {
   display: flex;
-  flex-direction: column;
+  gap: 6px;
   margin-bottom: 8px;
 }
 
-.user-rating-label {
-  color: #666;
-  margin-bottom: 2px;
-  font-size: 0.8rem;
+.post-chip {
+  font-size: 0.75rem !important;
+  height: 20px !important;
+  background-color: #BCBCBC !important;
+  color: #000 !important;
 }
 
-.user-star-icons {
+.post-quarter-summer {
+  background-color: #FBFFBF !important;
+}
+.post-quarter-winter {
+  background-color: #BFE6FF !important;
+}
+.post-quarter-fall {
+  background-color: #FFE6BF !important;
+}
+.post-quarter-spring {
+  background-color: #DEFFCE !important;
+}
+
+.post-user-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.post-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  background-color: #ccc;
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.post-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.post-user-stars {
   display: flex;
   gap: 2px;
 }
+
 .star-icon-user {
-  color: #5A54FF !important;
-  font-size: 0.9rem !important;
+  font-size: 1rem !important;
+}
+
+.filled-user-star {
+  color: #F5BD1F !important;
+}
+
+.empty-user-star {
+  color: #BCBCBC !important;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 4px;
 }
 
 .post-title {
-  font-size: 1rem !important;
-  font-weight: bold !important;
-  margin: 4px 0 !important;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 4px 0;
 }
 
-.post-subheader {
-  color: #888;
-  margin-bottom: 8px;
-  font-size: 0.8rem;
-}
-
-.post-body {
-  color: #333;
-  margin-bottom: 12px;
-  line-height: 1.3;
+.post-body-text {
   font-size: 0.9rem;
+  color: #333;
+  line-height: 1.3;
+  margin-bottom: 8px;
 }
 
-.divider {
+.post-divider {
   border: none;
   border-top: 1px solid #ccc;
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
-.bottom-row {
+.post-bottom-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 8px;
+  gap: 8px;
 }
 
-.friends-section {
+.post-course-ratings {
   display: flex;
   flex-direction: column;
-}
-.friends-text {
-  color: #666;
-  margin-bottom: 4px;
-  font-size: 0.8rem;
-}
-.friends-avatar {
-  display: flex;
-  gap: 4px;
-}
-.friends-avatar .MuiAvatar-root {
-  width: 28px !important;
-  height: 28px !important;
-  font-size: 0.8rem !important;
+  align-items: flex-start;
 }
 
-.public-rating-container {
+.post-course-ratings-label {
+  font-size: 0.6rem;
+  color: #6C3BB6;
+  margin-bottom: 0px;
+}
+
+.post-course-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star-icon-course {
+  font-size: 1.2rem !important;
+}
+
+.filled-course-star {
+  color: #6C3BB6 !important;
+}
+
+.empty-course-star {
+  color: #A598BA !important;
+}
+
+.post-friends-like {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
-.public-rating-label {
-  color: #666;
-  margin-bottom: 2px;
-  font-size: 0.8rem;
+  gap: 4px;
 }
 
-.big-star-wrapper {
-  position: relative;
-  display: inline-block;
+.post-friend-count {
+  font-size: 0.6rem;
+  color: #666;
 }
-.big-star-icon {
-  color: #6C3BB6 !important;
-  font-size: 40px !important;
+
+.post-icons {
+  display: flex;
+  gap: 8px;
 }
-.big-star-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  font-weight: bold;
-  font-size: 1rem;
+
+.post-icon {
+  font-size: 1.2rem !important;
+  color: #666;
 }

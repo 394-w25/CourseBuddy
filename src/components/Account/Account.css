@@ -1,11 +1,85 @@
-.account-details {
-    margin-bottom: 20px;
-}
-
-.account-content {
-    text-align: center;
-    padding-top: 20px;
-    height: calc(100vh - 56px - 64px); /* This is the height of the viewport minus the height of the app bar and the bottom navigation bar */
-    margin-top: 4rem;
-    margin-bottom: 6rem;
-}
+/* Account.css */
+.account-page {
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .account-container {
+    margin-top: 6rem;
+  }
+  
+  .account-top-card {
+    background-color: #cbcbcb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .top-card-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .account-avatar {
+    width: 100px !important;
+    height: 100px !important;
+    margin-right: 1.5rem;
+    background-color: #ccc;
+  }
+  
+  .stats-right {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    cursor: pointer;
+  }
+  
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .stat-label {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .user-info-section {
+    margin-top: 1rem;
+    text-align: left;
+  }
+  
+  .user-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+  
+  .user-email {
+    font-size: 0.9rem;
+    color: #444;
+  }
+  
+  .liked-reviews-btn {
+    width: 100%;
+    background-color: #7C67E7 !important;
+    color: #fff !important;
+    margin-bottom: 1rem !important;
+    font-size: 1rem !important;
+    padding: 0.6rem !important;
+  }
+  
+  .signout-btn {
+    width: 100%;
+    margin-bottom: 2rem !important;
+    font-size: 1rem !important;
+    padding: 0.6rem !important;
+  }
+  

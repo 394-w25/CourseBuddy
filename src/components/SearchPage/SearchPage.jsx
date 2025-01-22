@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./SearchPage.css";
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
-import { Container, Box, TextField, List, ListItem, ListItemText, Button, InputAdornment } from '@mui/material';
+import { Container, TextField, List, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from "../../utilities/firebase";
@@ -14,9 +14,10 @@ import {
   sendFriendRequest,
   cancelFriendRequestIfPending,
   findPendingRequestDoc,
+  fetchUserFriends,
   removeFriend
 } from '../../services/friendService';
-import Avatar from '@mui/material/Avatar';
+import UserItem from './UserItem/UserItem';
 
 function SearchPage({ userUID }) {
   const [query, setQuery] = useState('');
@@ -32,7 +33,7 @@ function SearchPage({ userUID }) {
 
   useEffect(() => {
     if (!me || results.length === 0) return;
-    const updated = results.map((r) => {
+    const updated = results.map(r => {
       const isFriend = me.friends.includes(r.id);
       return { ...r, isFriend };
     });
@@ -40,30 +41,30 @@ function SearchPage({ userUID }) {
   }, [me]);
 
   const subscribeMe = () => {
-    const unsub = onSnapshot(doc(db, "users", userUID), (snap) => {
+    onSnapshot(doc(db, "users", userUID), snap => {
       if (snap.exists()) {
         setMe({ id: userUID, ...snap.data() });
       }
     });
-    return unsub;
   };
 
   const subscribeRequests = () => {
-    const unsub = listenIncomingRequests(userUID, async (raw) => {
-      const augmented = [];
+    listenIncomingRequests(userUID, async raw => {
+      const arr = [];
       for (const req of raw) {
-        const fromRef = doc(db, 'users', req.from);
-        const snap = await getDoc(fromRef);
+        const ref = doc(db, 'users', req.from);
+        const snap = await getDoc(ref);
         let fromDisplay = req.from;
+        let fromPhoto = '';
         if (snap.exists()) {
           const data = snap.data();
           fromDisplay = data.displayName || data.email || req.from;
+          fromPhoto = data.photoURL || '';
         }
-        augmented.push({ ...req, fromDisplay });
+        arr.push({ ...req, fromDisplay, fromPhoto });
       }
-      setRequests(augmented);
+      setRequests(arr);
     });
-    return () => unsub();
   };
 
   const handleAccept = async (req) => {
@@ -99,22 +100,27 @@ function SearchPage({ userUID }) {
     setResults(final);
   };
 
-  const getButtonLabel = (usr) => {
+  const getButtonLabel = usr => {
     if (usr.isFriend) return "Unfriend";
-    if (usr.isRequested) return "Requested";
+    if (usr.isRequested) return "Cancel Request";
     return "Add Friend";
   };
+  
 
   const handleButtonClick = async (usr, index) => {
     if (!me) return;
+  
     if (usr.isFriend) {
       await removeFriend(userUID, usr.id);
       await removeFriend(usr.id, userUID);
+    
       const updated = [...results];
-      updated[index] = { ...updated[index], isFriend: false };
+      updated[index] = { ...updated[index], isFriend: false, isRequested: false };
       setResults(updated);
       return;
     }
+    
+  
     if (!usr.isRequested) {
       const docId = await sendFriendRequest(userUID, usr.id);
       const updated = [...results];
@@ -129,12 +135,13 @@ function SearchPage({ userUID }) {
       }
     }
   };
+  
 
   return (
-    <div>
+    <div className="search-page">
       <AppBar />
-      <Container className="search-content" maxWidth="sm">
-        <Box my={4}>
+      <Container className="search-content">
+        <div className="search-box">
           <TextField
             fullWidth
             label="Find your friends on CourseBuddy"
@@ -149,34 +156,39 @@ function SearchPage({ userUID }) {
               ),
             }}
           />
-          <List>
-            {results.map((stranger, index) => (
-              <ListItem key={stranger.id} button>
-                <Avatar className="profile-pic" src={stranger.photoURL} />
-                <ListItemText primary={stranger.displayName} />
-                <Button
-                  variant="outlined"
-                  onClick={() => handleButtonClick(stranger, index)}
-                >
-                  {getButtonLabel(stranger)}
-                </Button>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <hr />
-        <h2>Incoming Requests</h2>
+        </div>
+        <List>
+          {results.map((usr, index) => (
+            <UserItem
+              key={usr.id}
+              avatarURL={usr.photoURL}
+              primaryText={usr.displayName}
+              secondaryText={usr.email || ''}
+              mainButtonLabel={getButtonLabel(usr)}
+              onMainButtonClick={() => handleButtonClick(usr, index)}
+              showMainButton
+              divider
+            />
+          ))}
+        </List>
+        <hr className="divider" />
+        <h2 className="section-title">Incoming Requests</h2>
         <List>
           {requests.length === 0 && <p>No pending requests</p>}
-          {requests.map((req) => (
-            <ListItem key={req.id}>
-              <ListItemText
-                primary={`From: ${req.fromDisplay}`}
-                secondary={`Status: ${req.status}`}
-              />
-              <Button variant="contained" onClick={() => handleAccept(req)}>Accept</Button>
-              <Button variant="outlined" onClick={() => handleReject(req)}>Reject</Button>
-            </ListItem>
+          {requests.map(req => (
+            <UserItem
+              key={req.id}
+              avatarURL={req.fromPhoto}
+              primaryText={req.fromDisplay}
+              mainButtonLabel="Accept"
+              onMainButtonClick={() => handleAccept(req)}
+              showMainButton
+              divider={false}
+            >
+              <Button color="secondary" variant="outlined" onClick={() => handleReject(req)}>
+                Reject
+              </Button>
+            </UserItem>
           ))}
         </List>
       </Container>

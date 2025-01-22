@@ -1,0 +1,13 @@
+/* UserItem.css */
+.user-item-avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+  
+  .user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
