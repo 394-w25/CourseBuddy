@@ -13,8 +13,7 @@ function Account({
   userName,
   userEmail,
   profilePic,
-  filteredPost,
-  setFilteredPost
+  filteredPost
 }) {
   const navigate = useNavigate();
   const [friendCount, setFriendCount] = useState(0);

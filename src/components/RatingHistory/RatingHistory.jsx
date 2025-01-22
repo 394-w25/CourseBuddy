@@ -9,8 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import { useState, useEffect } from 'react';
 
 
-function RatingHistory({ userName, profilePic }) {
-    const [filteredPost, setFilteredPost] = useState([]);
+function RatingHistory({ userName, filteredPost, setFilteredPost}) {
 
     const fake_friends = ["Alice", "Bob", "Charlie", "David"];
  // Add userName as a dependency to prevent it from running infinitely    
@@ -43,12 +42,6 @@ function RatingHistory({ userName, profilePic }) {
         }
         fetchPosts();
     }, [userName]); // Add userName as a dependency to prevent it from running infinitely
-
-    // print out the posts
-    useEffect(() => {
-        console.log(filteredPost);
-    }
-    , [filteredPost]);
 
     return (
         <div>

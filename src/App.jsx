@@ -113,7 +113,7 @@ function App() {
               : <Navigate to="/" />} 
           />
           <Route path="/my-friends" element={isAuthenticated ? <MyFriends user={user} friends={friends} /> : <Navigate to="/" />} />
-          <Route path="/rating-history" element={isAuthenticated ? <RatingHistory userName={user} profilePic={profilePic}/> : <Navigate to="/" />} />
+          <Route path="/rating-history" element={isAuthenticated ? <RatingHistory userName={user} profilePic={profilePic} filteredPost={filteredPost} setFilteredPost={setFilteredPost}/> : <Navigate to="/" />} />
           <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} /> : <Navigate to="/" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
