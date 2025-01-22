@@ -16,7 +16,7 @@ import {
   findPendingRequestDoc,
   fetchUserFriends,
   removeFriend
-} from '../../services/friendService';
+} from '../../utilities/friendService';
 import UserItem from './UserItem/UserItem';
 
 function SearchPage({ userUID }) {

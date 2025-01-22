@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Container } from '@mui/material';
-import { removeFriend } from '../../../services/friendService';
+import { removeFriend } from '../../../utilities/friendService';
 import AppBar from '../../AppBar/AppBar';
 import NavigationBar from '../../NavigationBar/NavigationBar';
 import UserItem from '../UserItem/UserItem';
