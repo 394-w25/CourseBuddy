@@ -163,7 +163,6 @@ function SearchPage({ userUID }) {
               key={usr.id}
               avatarURL={usr.photoURL}
               primaryText={usr.displayName}
-              secondaryText={usr.email || ''}
               mainButtonLabel={getButtonLabel(usr)}
               onMainButtonClick={() => handleButtonClick(usr, index)}
               showMainButton
