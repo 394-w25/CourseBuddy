@@ -7,6 +7,7 @@ import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import Post from '../Post/Post';
 import { useParams } from 'react-router-dom';
+import './Comment.css';
 
 function Comment({ userName, profilePic }) {
     const post_id = useParams().post_id;
@@ -86,7 +87,7 @@ function Comment({ userName, profilePic }) {
     return (
         <div>
             <AppBar />
-            <Container maxWidth="sm">
+            <Container className="comment-container" maxWidth="sm">
                 {/* <Typography variant="h5" gutterBottom>
                     Comments for {post_id}
                 </Typography> */}

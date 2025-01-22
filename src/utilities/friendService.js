@@ -1,4 +1,4 @@
-import { db } from '../utilities/firebase';
+import { db } from './firebase';
 import {
   collection,
   doc,

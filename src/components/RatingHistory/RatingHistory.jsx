@@ -14,25 +14,25 @@ function RatingHistory({ userName, profilePic, filteredPost }) {
     return (
         <div>
             <AppBar />
-            <Container className='rating-history-page'>
+            <Container>
 
                 <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
                 </Container>
 
-                <Container maxWidth="sm">
+                <Container className="rating-history-page" maxWidth="sm">
                     <Box paddingBottom="30px">
-                    <Stack spacing={3}>
-                        { filteredPost.length === 0 ?
-                            (<p>Loading posts...</p>) :
-                            (filteredPost
-                                .slice()
-                                .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
-                                <div key={post.id}>
-                                <Post post={post} friends={fake_friends} postAnonymously={false}/>
-                                </div>)
-                            )
-                        }
-                    </Stack>
+                        <Stack spacing={3}>
+                            { filteredPost.length === 0 ?
+                                (<p>Loading posts...</p>) :
+                                (filteredPost
+                                    .slice()
+                                    .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
+                                    <div key={post.id}>
+                                    <Post post={post} friends={fake_friends} postAnonymously={false}/>
+                                    </div>)
+                                )
+                            }
+                        </Stack>
                     </Box>
                 </Container>
                 <NavigationBar />
