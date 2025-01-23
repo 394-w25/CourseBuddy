@@ -35,11 +35,18 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (curUser) => {
-      setUser(curUser);
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
-      setUserEmail(curUser?.email);
-      setProfilePic(curUser?.photoURL);
-      setAuthLoaded(true);
+      if (curUser) {
+        setUser(curUser);
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+        setUserEmail(curUser?.email);
+        setProfilePic(curUser?.photoURL);
+        setAuthLoaded(true);
+      } else {
+        setUser(null);
+        setUserEmail(null);
+        setProfilePic(null);
+        setAuthLoaded(true);
+      }
     })
 
     return () => unsubscribe();
