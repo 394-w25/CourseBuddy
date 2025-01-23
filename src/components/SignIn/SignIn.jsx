@@ -4,26 +4,22 @@ import logo from "../../images/CBLogo.png";
 import { Container } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
-import { signInWithGooglePopup } from "../../utilities/firebase";
+// import { signInWithGooglePopup } from "../../utilities/firebase";
+import { signInWithGoogle } from "../../utilities/firebase";
 
 import { createUserDocIfNotExists } from "../../utilities/createUserDocIfNotExists";
 
-const SignIn = ({ setUser, setUserEmail, setProfilePic }) => {
+const SignIn = () => {
   const navigate = useNavigate();
 
   const logGoogleUser = async () => {
     try {
-      const response = await signInWithGooglePopup();
+      const response = await signInWithGoogle();
 
-      // 1) store user in React state
-      setUser(response.user);
-      setUserEmail(response.user.email);
-      setProfilePic(response.user.photoURL);
-
-      // 2) ensure there's a doc in "users/{uid}"
+      // 1) ensure there's a doc in "users/{uid}"
       await createUserDocIfNotExists(response.user);
 
-      // 3) navigate to feed
+      // 2) navigate to feed
       navigate("/feed");
     } catch (error) {
       console.error("Error signing in with Google: ", error);

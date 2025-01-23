@@ -1,7 +1,7 @@
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore"; 
 import { get } from "firebase/database";
 
@@ -19,12 +19,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
-
 export const db = getFirestore(app);
 // export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const provider = new GoogleAuthProvider();
 
 // Only initialize analytics if running in a browser -- this is for dataInsertion.js
 // We probably don't need this for the final project
@@ -33,8 +31,13 @@ if (typeof window !== "undefined") {
   analytics = getAnalytics(app);
 }
 
-// Example query code:
-// const querySnapshot = await getDocs(collection(db, "posts"));
-// querySnapshot.forEach((doc) => {
-//     console.log(doc.id, "=>", doc.data());
-// });
+export const signInWithGoogle = async () => {
+  try{
+    setPersistence(auth, browserLocalPersistence);
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    return {user};
+  } catch (error) {
+    console.error("Error signing in with Google: ", error);
+  }
+}

@@ -18,7 +18,9 @@ import RatingHistory from './components/RatingHistory/RatingHistory';
 import Comment from './components/Comment/Comment';
 import SearchPage from './components/SearchPage/SearchPage';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
-import { db } from './utilities/firebase';
+import { auth, db } from './utilities/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { set } from 'firebase/database';
 
 // Toggle this to `true` in dev if you want to skip sign-in
 const DEV_MODE = false;
@@ -29,6 +31,19 @@ function App() {
   const [profilePic, setProfilePic] = useState(null);
   const [friends, setFriends] = useState([]);
   const [filteredPost, setFilteredPost] = useState([]);
+  const [authLoaded, setAuthLoaded] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (curUser) => {
+      setUser(curUser);
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+      setUserEmail(curUser?.email);
+      setProfilePic(curUser?.photoURL);
+      setAuthLoaded(true);
+    })
+
+    return () => unsubscribe();
+  }, []);
 
   const isAuthenticated = DEV_MODE || user;
 
@@ -78,6 +93,7 @@ function App() {
   
 
   return (
+    !authLoaded ? <div>Loading...</div> :
     <Container className="app-background" maxWidth="sm" disableGutters>
       <Router>
         <Routes>
@@ -85,11 +101,7 @@ function App() {
             <Route
               path="/"
               element={
-                <SignIn
-                  setUser={setUser}
-                  setUserEmail={setUserEmail}
-                  setProfilePic={setProfilePic}
-                />
+                <SignIn />
               }
             />
           ) : (
