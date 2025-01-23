@@ -11,6 +11,10 @@
     margin-top: 20px;
 }
 
-.comment-container {
+.post-container {
     margin-top: 80px;
+}
+
+.comment-container {
+    margin-bottom: 80px;
 }

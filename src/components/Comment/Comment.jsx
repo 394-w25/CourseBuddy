@@ -87,7 +87,7 @@ function Comment({ userName, profilePic }) {
     return (
         <div>
             <AppBar />
-            <Container className="comment-container" maxWidth="sm">
+            <Container className="post-container" maxWidth="sm">
                 {/* <Typography variant="h5" gutterBottom>
                     Comments for {post_id}
                 </Typography> */}
@@ -99,7 +99,7 @@ function Comment({ userName, profilePic }) {
             </Container>
 
             {/* Comment Section */}
-            <Container maxWidth="sm">
+            <Container className="comment-container" maxWidth="sm">
 
                 <Divider style={{ margin: "20px 0" }} />
 
