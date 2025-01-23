@@ -167,8 +167,6 @@
 }
 
 .post-friends-like {
-  display: flex;
-  flex-direction: column;
   align-items: flex-end;
   gap: 4px;
 }
@@ -179,11 +177,29 @@
 }
 
 .post-icons {
-  display: flex;
-  gap: 8px;
+  display: flex; 
+  align-items: center; /* Vertically aligns the icons in the container */
+  padding: 0px;
+  margin: 0px;
+  gap: 10px; /* Adds space between the icons */
 }
 
 .post-icon {
-  font-size: 1.2rem !important;
-  color: #666;
+  display: inline-block;
+  font-size: 1.2rem !important; 
+  margin: 0;
+  padding: 0;
+  color: #666; /* Set icon color */
 }
+
+.heart-icon {
+  transform: scale(1); /* Keep the scaling */
+  transform-origin: center; /* Ensure the scaling happens from the center */
+  width: 1.2rem; /* Adjust this to match the scaled size */
+  height: 1.2rem; /* Adjust this to match the scaled size */
+  display: inline-block; /* Prevent layout issues */
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
+  color: #666 !important;
+}
+

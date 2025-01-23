@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Chip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import Heart from "react-animated-heart";
+import Heart from "react-heart";
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import "./Post.css";
 
@@ -63,6 +64,8 @@ function Post({ post, isPublic }) {
   const publicRating = post.publicRating ?? 3.5;
   const publicCount = abbreviateCount(post.publicRatingCount ?? 1100);
   const friendCount = post.friendCount ?? 2;
+  // const [isLiked, setIsLiked] = React.useState(false);
+  const [active, setActive] = React.useState(false);
 
   return (
     <div className="post-wrapper" onClick={() => navigate(`/comment/${post.id}`)}>
@@ -104,7 +107,7 @@ function Post({ post, isPublic }) {
             </div>
             <div className="post-icons">
               <ModeCommentOutlinedIcon className="post-icon" />
-              <FavoriteBorderIcon className="post-icon" />
+              <Heart className="heart-icon" isActive={active} onClick={() => setActive(!active)} />
             </div>
           </div>
         </div>

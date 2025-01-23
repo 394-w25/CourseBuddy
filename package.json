@@ -17,7 +17,9 @@
     "firebase": "^11.1.0",
     "js-yaml": "^4.1.0",
     "react": "^18.3.0",
+    "react-animated-heart": "^0.0.8",
     "react-dom": "^18.3.0",
+    "react-heart": "^1.0.6",
     "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
