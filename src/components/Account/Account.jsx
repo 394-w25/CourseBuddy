@@ -72,7 +72,6 @@ function Account({
         <Button
           variant="contained"
           className="liked-reviews-btn"
-          onClick={() => navigate("/liked-reviews")}
           endIcon={<FavoriteBorderIcon />}
         >
           Liked Reviews
