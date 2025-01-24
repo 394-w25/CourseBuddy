@@ -13,7 +13,8 @@ function Account({
   userName,
   userEmail,
   profilePic,
-  filteredPost
+  filteredPost,
+  likedPosts,
 }) {
   const navigate = useNavigate();
   const [friendCount, setFriendCount] = useState(0);
@@ -71,6 +72,7 @@ function Account({
         <Button
           variant="contained"
           className="liked-reviews-btn"
+          onClick={() => navigate("/liked-reviews")}
           endIcon={<FavoriteBorderIcon />}
         >
           Liked Reviews

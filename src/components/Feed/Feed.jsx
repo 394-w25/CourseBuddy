@@ -11,6 +11,7 @@ import { collection, getDocs } from "firebase/firestore";
 import {db} from "../../utilities/firebase";
 import "./Feed.css";
 import AppBar from '../AppBar/AppBar';
+import { set } from 'firebase/database';
 
 async function getPostsFromDB() {
   const querySnapshot = await getDocs(collection(db, "posts"));
@@ -23,7 +24,7 @@ async function getPostsFromDB() {
 
 const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
-function Feed({ friends }) {
+function Feed({ friends, setLikedPosts }) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -80,7 +81,7 @@ function Feed({ friends }) {
               .sort((a, b) => b.date.seconds - a.date.seconds)
               .map((post) => (
                 <div key={post.id}>
-                  <Post post={post} isPublic={tabValue === 0} />
+                  <Post post={post} setLikedPosts={setLikedPosts} isPublic={tabValue === 0} />
                 </div>
               ))
           )}

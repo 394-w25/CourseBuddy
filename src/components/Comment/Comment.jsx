@@ -9,7 +9,7 @@ import Post from '../Post/Post';
 import { useParams } from 'react-router-dom';
 import './Comment.css';
 
-function Comment({ userName, profilePic }) {
+function Comment({ userName, profilePic, setLikedPosts }) {
     const post_id = useParams().post_id;
     const [postInfo, setPostInfo] = useState(null);
     const [body, setBody] = useState("");
@@ -92,7 +92,7 @@ function Comment({ userName, profilePic }) {
                     Comments for {post_id}
                 </Typography> */}
                 {postInfo ? (
-                    <Post post={postInfo} friends={[]} />
+                    <Post post={postInfo} setLikedPosts={setLikedPosts} friends={[]} />
                 ) : (
                     <p>Loading post information...</p>
                 )}

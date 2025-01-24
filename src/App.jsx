@@ -32,6 +32,7 @@ function App() {
   const [friends, setFriends] = useState([]);
   const [filteredPost, setFilteredPost] = useState([]);
   const [authLoaded, setAuthLoaded] = useState(false);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (curUser) => {
@@ -114,8 +115,7 @@ function App() {
           ) : (
             <Route path="/" element={<Feed friends={friends} />} />
           )}
-
-          <Route path="/feed" element={isAuthenticated ? <Feed friends={friends} /> : <Navigate to="/" />} />
+          <Route path="/feed" element={isAuthenticated ? <Feed friends={friends} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="/submission" element={isAuthenticated ? <Submission userName={user} /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <SearchPage userUID={user.uid} /> : <Navigate to="/" />} />
           <Route 
@@ -128,12 +128,14 @@ function App() {
                 friends={friends}
                 filteredPost={filteredPost}
                 setFilteredPost={setFilteredPost} 
+                likedPosts={likedPosts}
               /> 
               : <Navigate to="/" />} 
           />
           <Route path="/my-friends" element={isAuthenticated ? <MyFriends user={user} friends={friends} /> : <Navigate to="/" />} />
           <Route path="/rating-history" element={isAuthenticated ? <RatingHistory userName={user} profilePic={profilePic} filteredPost={filteredPost} setFilteredPost={setFilteredPost}/> : <Navigate to="/" />} />
-          <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} /> : <Navigate to="/" />} />
+          <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
+          <Route path="/liked-posts" element={isAuthenticated ? <Feed friends={friends} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

@@ -7,6 +7,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Heart from "react-heart";
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import "./Post.css";
+import { set } from 'firebase/database';
 
 const courseClassMap = {
   CS: "post-bar-cs",
@@ -53,7 +54,7 @@ function abbreviateCount(num) {
   return val < 10 ? `${val}k` : `${Math.round(val)}k`;
 }
 
-function Post({ post, isPublic }) {
+function Post({ post, isPublic, setLikedPosts }) {
   const navigate = useNavigate();
 
   // Show anonymous name only for public feed, otherwise show actual username
@@ -66,6 +67,19 @@ function Post({ post, isPublic }) {
   const friendCount = post.friendCount ?? 2;
   // const [isLiked, setIsLiked] = React.useState(false);
   const [active, setActive] = React.useState(false);
+
+  function handleLikedPost(post, setActive, setLikedPosts) {
+    setActive(!active);
+    console.log("Liked post: ", post.id);
+    setLikedPosts((prevLikedPosts) => {
+      if (active) {
+        console.log("Unliking post: ", post.id);
+        return prevLikedPosts.filter((likedPost) => likedPost !== post.id);
+      } else {
+        return [...prevLikedPosts, post.id];
+      }
+    })
+  }
 
   return (
     <div className="post-wrapper" onClick={() => navigate(`/comment/${post.id}`)}>
@@ -107,7 +121,9 @@ function Post({ post, isPublic }) {
             </div>
             <div className="post-icons">
               <ModeCommentOutlinedIcon className="post-icon" />
-              <Heart className="heart-icon" isActive={active} onClick={() => setActive(!active)} />
+              <Heart className="heart-icon" isActive={active} onClick={() => {
+                handleLikedPost(post, setActive, setLikedPosts)}
+               } />
             </div>
           </div>
         </div>
