@@ -10,6 +10,7 @@ import "./Post.css";
 import { set } from 'firebase/database';
 
 const courseClassMap = {
+  DEFAULT: "post-bar-default",
   CS: "post-bar-cs",
   PHYSICS: "post-bar-physics",
   GEN_ENG: "post-bar-gen_eng",
@@ -22,7 +23,7 @@ function getCourseBarClass(courseName) {
       return courseClassMap[prefix];
     }
   }
-  return "";
+  return courseClassMap["DEFAULT"];
 }
 
 function getQuarterClass(quarter) {
