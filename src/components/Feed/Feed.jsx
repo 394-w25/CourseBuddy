@@ -19,7 +19,7 @@ async function getPostsFromDB() {
   return posts;
 }
 
-function Feed({ friends, setLikedPosts }) {
+function Feed({ user, friends, likedPosts, setLikedPosts }) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -74,7 +74,7 @@ function Feed({ friends, setLikedPosts }) {
             filteredPosts
               .map((post) => (
                 <div key={post.id}>
-                  <Post post={post} setLikedPosts={setLikedPosts} isPublic={tabValue === 0} />
+                  <Post post={post} user={user} likedPosts={likedPosts} setLikedPosts={setLikedPosts} isPublic={tabValue === 0} />
                 </div>
               ))
           )}

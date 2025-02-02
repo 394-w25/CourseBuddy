@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Avatar, Chip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
@@ -7,6 +7,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Heart from "react-heart";
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import "./Post.css";
+import { doc, updateDoc, setDoc, getDocs, arrayUnion, arrayRemove } from "firebase/firestore";
+import { db } from "../../utilities/firebase";
 import { set } from 'firebase/database';
 
 const courseClassMap = {
@@ -55,7 +57,7 @@ function abbreviateCount(num) {
   return val < 10 ? `${val}k` : `${Math.round(val)}k`;
 }
 
-function Post({ post, isPublic, setLikedPosts }) {
+function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
   const navigate = useNavigate();
 
   // Show anonymous name only for public feed, otherwise show actual username
@@ -66,20 +68,37 @@ function Post({ post, isPublic, setLikedPosts }) {
   const publicRating = post.publicRating ?? 3.5;
   const publicCount = abbreviateCount(post.publicRatingCount ?? 1100);
   const friendCount = post.friendCount ?? 2;
-  // const [isLiked, setIsLiked] = React.useState(false);
   const [active, setActive] = React.useState(false);
 
-  function handleLikedPost(post, setActive, setLikedPosts) {
-    setActive(!active);
-    console.log("Liked post: ", post.id);
-    setLikedPosts((prevLikedPosts) => {
+  useEffect(() => {
+    if (likedPosts.includes(post.id)) {
+      setActive(true);
+    }
+  })
+
+  async function handleLikedPost(post, setActive, setLikedPosts) {
+    const docRef = doc(db, "users", user.uid);
+
+    try {
       if (active) {
-        console.log("Unliking post: ", post.id);
-        return prevLikedPosts.filter((likedPost) => likedPost !== post.id);
-      } else {
-        return [...prevLikedPosts, post.id];
+        // unlike
+        await updateDoc(docRef, {
+          likedPosts: arrayRemove(post.id)
+        })
       }
-    })
+      else {
+        // like
+        await updateDoc(docRef, {
+          likedPosts: arrayUnion(post.id)
+        })
+        setLikedPosts((prevLikedPosts) => [...prevLikedPosts, post.id]);
+      }
+
+      setActive(!active);
+    }
+    catch (error) {
+      console.error("Error liking post: ", error);
+    }
   }
 
   return (

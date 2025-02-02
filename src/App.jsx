@@ -51,8 +51,8 @@ function App() {
             console.log("No such document!");
           }
         });
-        console.log("user's liked posts: ", likedPosts);
       } else {
+        console.log("no user");
         setUser(null);
         setUserEmail(null);
         setProfilePic(null);
@@ -126,7 +126,7 @@ function App() {
           ) : (
             <Route path="/" element={<Feed friends={friends} />} />
           )}
-          <Route path="/feed" element={isAuthenticated ? <Feed friends={friends} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
+          <Route path="/feed" element={isAuthenticated ? <Feed user={user.uid} friends={friends} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="/submission" element={isAuthenticated ? <Submission userName={user} /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <SearchPage userUID={user.uid} /> : <Navigate to="/" />} />
           <Route 
@@ -145,7 +145,7 @@ function App() {
           />
           <Route path="/my-friends" element={isAuthenticated ? <MyFriends user={user} friends={friends} /> : <Navigate to="/" />} />
           <Route path="/rating-history" element={isAuthenticated ? <RatingHistory userName={user} profilePic={profilePic} filteredPost={filteredPost} setFilteredPost={setFilteredPost}/> : <Navigate to="/" />} />
-          <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
+          <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           {/* <Route path="/liked-reviews" element={isAuthenticated ? <RatingHistory userName={user} profilePic={profilePic} filteredPost={likedPosts} setFilteredPost={setLikedPosts}/> : <Navigate to="/" />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
