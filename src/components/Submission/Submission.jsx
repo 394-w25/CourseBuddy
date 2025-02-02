@@ -64,13 +64,13 @@ function Submission({ userName }) {
 
     <div>
       <AppBar />
-      <Container className="submission-content">
+      <Container maxWidth="xs" className="submission-content">
         <Stack spacing={2}>
-          <TextField required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
-          <TextField required id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
-          <TextField required id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
+          <TextField size="small" required id="title" label="Title" value={title} type='text' onChange={(e) => setTitle(e.target.value)} />
+          <TextField size="small" required id="course" label="Course" value={course} type='text' onChange={(e) => setCourse(e.target.value)} />
+          <TextField size="small" required id="professor" label="Professor" value={professor} type='text' onChange={(e) => setProfessor(e.target.value)} />
           
-          <FormControl fullWidth>
+          <FormControl size="small" fullWidth>
             <InputLabel id="demo-simple-select-label">Quarter</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -86,7 +86,7 @@ function Submission({ userName }) {
             </Select>
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl size="small" fullWidth>
             <InputLabel id="demo-simple-select-label">Year</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -104,21 +104,21 @@ function Submission({ userName }) {
               <MenuItem value={"2019"}>2019</MenuItem>
             </Select>
           </FormControl>
-
-          {/* <TextField required id="quarter" label="Quarter" value={quarter} type='text' onChange={(e) => setQuarter(e.target.value)} /> */}
-          <TextField required id="body" multiline rows={3} label="Write your review!" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
+          <TextField required id="body" multiline rows={2} label="Write your review!" value={body} type='text' onChange={(e) => setBody(e.target.value)} />
           <div className="rating-box">
-            <Typography variant="h6" component="legend">Course Rating</Typography>
-            <Rating id="rating" name="half-rating" size="large" defaultValue={0} precision={0.5} onChange={(_, newValue) => setRating(newValue)} />
+            <Typography variant="subtitle1" component="legend">Course Rating</Typography>
+            <Rating size="large" id="rating" name="half-rating" defaultValue={0} precision={0.5} onChange={(_, newValue) => setRating(newValue)} />
           </div>
           <div className="anonymous-buttons">
             <Button
+              size="small"
               variant={selectedButton === 'showName' ? 'contained' : 'outlined'}
               onClick={() => handleButtonClick('showName')}
             >
               Show Name
             </Button>
             <Button
+              size="small"
               variant={selectedButton === 'anonymous' ? 'contained' : 'outlined'}
               onClick={() => handleButtonClick('anonymous')}
             >
@@ -126,7 +126,7 @@ function Submission({ userName }) {
             </Button>
           </div>
           {(fillInFields) ? <Alert variant="filled" severity="warning">Fill in all the fields before submitting.</Alert> : null}
-          <Button variant="contained" onClick={handleSubmit} >Submit</Button>
+          <Button size="small" variant="contained" onClick={handleSubmit} >Submit</Button>
         </Stack>
       </Container>
       <NavigationBar />

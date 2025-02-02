@@ -1,7 +1,6 @@
 .submission-content {
     height: calc(100vh - 56px - 64px);
-    margin-top: 6rem;
-    margin-bottom: 10rem;
+    margin-top: 5rem;
 }
 
 #rating {
