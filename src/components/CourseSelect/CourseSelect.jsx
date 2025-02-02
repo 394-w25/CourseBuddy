@@ -27,7 +27,7 @@ function CourseSelect( {searchFunc} ) {
                 inputProps={{ 'aria-label': 'search by course' }}
                 onChange={onType}
             />
-            <IconButton sx={{ p: '10px', pointerEvents: 'none' }} aria-label="search">
+            <IconButton aria-label="search">
                 <SearchIcon />
             </IconButton>
         </Paper>

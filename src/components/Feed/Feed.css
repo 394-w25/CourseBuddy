@@ -1,18 +1,8 @@
 .feed-content {
-    margin-top: 200px;
+    margin-top: 150px;
     padding-bottom: 80px;
     overflow-y: auto;
     min-height: calc(100vh - 64px - 56px);
-  }
-  
-  .feed-content .course-select-wrapper {
-    margin-bottom: 1rem;
-    position: fixed;
-    top: 144px;
-    left: 37%;
-    right: 37%;
-    z-index: 1000;
-    width: 26%;
   }
   
   .friends-public-switch {
