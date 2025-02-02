@@ -185,6 +185,7 @@
   padding: 0px;
   margin: 0px;
   gap: 10px; /* Adds space between the icons */
+  justify-content: flex-end;
 }
 
 .post-icon {
