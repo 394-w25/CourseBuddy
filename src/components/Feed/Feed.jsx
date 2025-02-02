@@ -9,7 +9,6 @@ import { collection, getDocs } from "firebase/firestore";
 import {db} from "../../utilities/firebase";
 import "./Feed.css";
 import AppBar from '../AppBar/AppBar';
-import { set } from 'firebase/database';
 
 async function getPostsFromDB() {
   const querySnapshot = await getDocs(collection(db, "posts"));
@@ -19,8 +18,6 @@ async function getPostsFromDB() {
   });
   return posts;
 }
-
-const fake_friends = ["Alice", "Bob", "Charlie", "David"];
 
 function Feed({ friends, setLikedPosts }) {
   const [posts, setPosts] = useState([]);
@@ -41,21 +38,21 @@ function Feed({ friends, setLikedPosts }) {
   }, []);
 
   useEffect(() => {
+    let filtered = posts;
+
     if (search) {
-      setFilteredPosts(posts.filter(post => post.course_name.toLowerCase().includes(search)));
-    } else {
-      setFilteredPosts(posts);
+      filtered = filtered.filter(post => post.course_name.toLowerCase().includes(search.toLowerCase()));
     }
-  }, [search, posts]);
+
+    if (tabValue === 1) {
+      filtered = filtered.filter(post => friends.some(friend => friend.displayName === post.username));
+    }
+
+    setFilteredPosts(filtered);
+  }, [search, posts, tabValue, friends]);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
-
-    if (newValue === 0) {
-      setFilteredPosts(posts);
-    } else {
-      setFilteredPosts(posts.filter(post => friends.some(friend => friend.displayName === post.username)));
-    }
   };
 
   return (
@@ -75,8 +72,6 @@ function Feed({ friends, setLikedPosts }) {
             <Typography className="no-friends-text" variant="h4">Your friends have not reviewed any courses yet. Add more friends to see some posts!</Typography>
           ) : (
             filteredPosts
-              .slice()
-              .sort((a, b) => b.date.seconds - a.date.seconds)
               .map((post) => (
                 <div key={post.id}>
                   <Post post={post} setLikedPosts={setLikedPosts} isPublic={tabValue === 0} />
