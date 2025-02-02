@@ -23,7 +23,9 @@ function Comment({ userName, profilePic, setLikedPosts }) {
             const posts = [];
             doc.forEach((doc) => {
                 if (doc.id === post_id) {
-                    posts.push({ id: doc.id, ...doc.data() });
+                    posts.push({ id: doc.id, ...doc.data(), username: doc.data().anonymous ? "Anonymous" : doc.data().username });
+                    // post.anonymous ? "Anonymous" : post.username
+                    // updates username depending on anonymity
                 }
             });
             return posts[0];
