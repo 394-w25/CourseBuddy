@@ -4,9 +4,7 @@ import NavigationBar from '../NavigationBar/NavigationBar';
 import CourseSelect from '../CourseSelect/CourseSelect';
 import PeopleIcon from '@mui/icons-material/People';
 import PublicIcon from '@mui/icons-material/Public';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { Container, Box, Stack } from '@mui/material';
+import { Container, Box, Stack, Typography, Tabs, Tab } from '@mui/material';
 import { collection, getDocs } from "firebase/firestore"; 
 import {db} from "../../utilities/firebase";
 import "./Feed.css";
@@ -74,7 +72,7 @@ function Feed({ friends, setLikedPosts }) {
         <Box>
         <Stack spacing={3}>
           {filteredPosts.length === 0 ? (
-            <p>No results found...</p>
+            <Typography className="no-friends-text" variant="h4">Your friends have not reviewed any courses yet. Add more friends to see some posts!</Typography>
           ) : (
             filteredPosts
               .slice()
