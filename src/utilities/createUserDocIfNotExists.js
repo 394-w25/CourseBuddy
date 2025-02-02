@@ -21,7 +21,8 @@ export async function createUserDocIfNotExists(user) {
       displayName: user.displayName || null,
       email: user.email || null,
       photoURL: user.photoURL || null,
-      friends: [] 
+      friends: [] ,
+      likedPosts: [],
     },
     { merge: true }
   );
