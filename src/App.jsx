@@ -42,11 +42,22 @@ function App() {
         setUserEmail(curUser?.email);
         setProfilePic(curUser?.photoURL);
         setAuthLoaded(true);
+        const docRef = doc(db, "users", curUser.uid);
+        onSnapshot(docRef, (doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            setLikedPosts(data.likedPosts || []);
+          } else {
+            console.log("No such document!");
+          }
+        });
+        console.log("user's liked posts: ", likedPosts);
       } else {
         setUser(null);
         setUserEmail(null);
         setProfilePic(null);
         setAuthLoaded(true);
+        setLikedPosts([]);
       }
     })
 
