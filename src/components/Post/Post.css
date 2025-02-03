@@ -1,5 +1,3 @@
-/* Post.css */
-
 .post-wrapper {
   width: 100%;
   max-width: 400px;
@@ -15,19 +13,6 @@
 .post-top-bar {
   padding: 8px;
   color: #fff;
-}
-
-.post-bar-default {
-  background-color: #6C3BB6;
-}
-.post-bar-cs {
-  background-color: #7593ff;
-}
-.post-bar-physics {
-  background-color: #e874ff;
-}
-.post-bar-gen_eng {
-  background-color: #ff6e70;
 }
 
 .post-course-name {
@@ -54,6 +39,7 @@
   color: #000 !important;
 }
 
+/* Quarter color chips */
 .post-quarter-summer {
   background-color: #FBFFBF !important;
 }

@@ -3,36 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Chip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-// import Heart from "react-animated-heart";
 import Heart from "react-heart";
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import "./Post.css";
-import { doc, updateDoc, setDoc, getDocs, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../utilities/firebase";
-import { set } from 'firebase/database';
 
-const courseClassMap = {
-  DEFAULT: "post-bar-default",
-  CS: "post-bar-cs",
-  PHYSICS: "post-bar-physics",
-  GEN_ENG: "post-bar-gen_eng",
-};
+import { SUBJECT_COLORS } from '../../utilities/subjectData';
 
-function getCourseBarClass(courseName) {
-  const upper = (courseName || "").toUpperCase();
-  for (const prefix in courseClassMap) {
-    if (upper.startsWith(prefix)) {
-      return courseClassMap[prefix];
-    }
-  }
-  return courseClassMap["DEFAULT"];
+function getCourseColor(courseName) {
+  if (!courseName) return "#8c5ed1"; // fallback color if for some reason courseName is missing
+
+  const subject = courseName.split(" ")[0].toUpperCase();
+  // Look up the subject color, or default if not found
+  return SUBJECT_COLORS[subject] || "#8c5ed1";
 }
 
 function getQuarterClass(quarter) {
   const lower = (quarter || "").toLowerCase();
   if (lower.includes("summer")) return "post-quarter-summer";
   if (lower.includes("winter")) return "post-quarter-winter";
-  if (lower.includes("fall")) return "post-quarter-fall";
+  if (lower.includes("fall"))   return "post-quarter-fall";
   if (lower.includes("spring")) return "post-quarter-spring";
   return "";
 }
@@ -40,18 +31,23 @@ function getQuarterClass(quarter) {
 function renderUserStars(rating) {
   const full = Math.floor(rating);
   return [...Array(5)].map((_, index) =>
-    index < full ? <StarIcon key={index} className="star-icon-user filled-user-star" /> : <StarBorderIcon key={index} className="star-icon-user empty-user-star" />
+    index < full
+      ? <StarIcon key={index} className="star-icon-user filled-user-star" />
+      : <StarBorderIcon key={index} className="star-icon-user empty-user-star" />
   );
 }
 
 function renderCourseStars(rating) {
   const full = Math.floor(rating);
   return [...Array(5)].map((_, index) =>
-    index < full ? <StarIcon key={index} className="star-icon-course filled-course-star" /> : <StarBorderIcon key={index} className="star-icon-course empty-course-star" />
+    index < full
+      ? <StarIcon key={index} className="star-icon-course filled-course-star" />
+      : <StarBorderIcon key={index} className="star-icon-course empty-course-star" />
   );
 }
 
 function abbreviateCount(num) {
+  if (!num) return 0;
   if (num < 1000) return num;
   const val = Math.floor(num / 100) / 10;
   return val < 10 ? `${val}k` : `${Math.round(val)}k`;
@@ -60,7 +56,7 @@ function abbreviateCount(num) {
 function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
   const navigate = useNavigate();
 
-  // Show anonymous name only for public feed, otherwise show actual username
+  // Show “Anonymous” name only if public feed + post.anonymous
   const userName = isPublic && post.anonymous ? "Anonymous" : post.username;
 
   const userRating = post.rating ?? 0;
@@ -68,15 +64,17 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
   const publicRating = post.publicRating ?? 3.5;
   const publicCount = abbreviateCount(post.publicRatingCount ?? 1100);
   const friendCount = post.friendCount ?? 2;
-  const [active, setActive] = React.useState(false);
+
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     if (likedPosts.includes(post.id)) {
       setActive(true);
     }
-  })
+  }, [likedPosts, post.id]);
 
-  async function handleLikedPost(post, setActive, setLikedPosts) {
+  async function handleLikedPost(e) {
+    e.stopPropagation(); // so we don't navigate to the comments when clicking heart
     const docRef = doc(db, "users", user.uid);
 
     try {
@@ -84,32 +82,40 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
         // unlike
         await updateDoc(docRef, {
           likedPosts: arrayRemove(post.id)
-        })
-      }
-      else {
+        });
+        setLikedPosts(prev => prev.filter(id => id !== post.id));
+      } else {
         // like
         await updateDoc(docRef, {
           likedPosts: arrayUnion(post.id)
-        })
-        setLikedPosts((prevLikedPosts) => [...prevLikedPosts, post.id]);
+        });
+        setLikedPosts(prev => [...prev, post.id]);
       }
-
       setActive(!active);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error liking post: ", error);
     }
   }
 
   return (
-    <div className="post-wrapper" onClick={() => navigate(`/comment/${post.id}`)}>
-      <div className={`post-top-bar ${getCourseBarClass(post.course_name)}`}>
+    <div
+      className="post-wrapper"
+      onClick={() => navigate(`/comment/${post.id}`)}
+    >
+      {/* Inline style for color */}
+      <div
+        className="post-top-bar"
+        style={{ backgroundColor: getCourseColor(post.course_name) }}
+      >
         <h3 className="post-course-name">{post.course_name}</h3>
       </div>
 
       <div className="post-body-container">
         <div className="post-chips-row">
-          <Chip label={post.quarter} className={`post-chip ${getQuarterClass(post.quarter)}`} />
+          <Chip
+            label={post.quarter}
+            className={`post-chip ${getQuarterClass(post.quarter)}`}
+          />
           <Chip label={post.professor} className="post-chip" />
         </div>
 
@@ -141,9 +147,11 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
             </div>
             <div className="post-icons">
               <ModeCommentOutlinedIcon className="post-icon" />
-              <Heart className="heart-icon" isActive={active} onClick={() => {
-                handleLikedPost(post, setActive, setLikedPosts)}
-               } />
+              <Heart
+                className="heart-icon"
+                isActive={active}
+                onClick={handleLikedPost}
+              />
             </div>
           </div>
         </div>
@@ -151,6 +159,5 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
     </div>
   );
 }
-
 
 export default Post;
