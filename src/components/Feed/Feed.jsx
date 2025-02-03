@@ -78,7 +78,6 @@ function Feed({
   return (
     <div>
       <AppBar />
-      <h1> This is to test whether auto deploy works... </h1>
       <Tabs
         className="friends-public-switch"
         value={tabValue}
@@ -93,6 +92,8 @@ function Feed({
         <div className="course-select-wrapper">
           <CourseSelect searchFunc={setSearch} />
         </div>
+
+        <h1> sudfiu </h1>
 
         <Box>
           <Stack spacing={3}>
