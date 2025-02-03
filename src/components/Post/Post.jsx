@@ -49,7 +49,6 @@ function renderCourseStars(rating) {
 function abbreviateCount(num) {
   if (!num) return 0;
   if (num < 1000) return num;
-  // Example: 1234 -> 12.3 -> "12.3k"
   const val = Math.floor(num / 100) / 10;
   return val < 10 ? `${val}k` : `${Math.round(val)}k`;
 }
@@ -57,31 +56,30 @@ function abbreviateCount(num) {
 export default function Post({
   user,
   post,
-  isPublic,
+  isPublic = false,   // default false
   likedPosts = [],
   setLikedPosts = () => {}
 }) {
   const navigate = useNavigate();
 
-  // Show "Anonymous" only if feed is public AND post is anonymous
-  const userName = isPublic && post.anonymous ? "Anonymous" : post.username;
+  // If user is anonymous on a public feed, show "Anonymous" instead of real username
+  const displayName = (isPublic && post.anonymous)
+    ? "Anonymous"
+    : post.username || "Unknown User";
 
-  // Original rating from this user’s post
+  // Hide the real avatar if post is anonymous on a public feed
+  // Fallback is an empty string => default avatar
+  const avatarSrc = (isPublic && post.anonymous)
+    ? ""
+    : (post.authorPhotoURL || "");
+
   const userRating = post.rating ?? 0;
-  const dateStr    = post.date.toDate().toDateString();
-
-  // HEART "like" state
+  const dateStr    = post.date?.toDate().toDateString() || "";
+  
   const [active, setActive] = useState(false);
-
-  // State for the course’s overall average rating and # of ratings
   const [courseAvgRating, setCourseAvgRating] = useState(0);
   const [courseRatingCount, setCourseRatingCount] = useState(0);
 
-  const avatarSrc = (isPublic && post.anonymous)
-  ? "" // shows default/fallback avatar
-  : (post.authorPhotoURL || "");
-
-  // Mark heart active if the post is in user’s likedPosts
   useEffect(() => {
     if (Array.isArray(likedPosts) && likedPosts.includes(post.id)) {
       setActive(true);
@@ -90,13 +88,9 @@ export default function Post({
     }
   }, [likedPosts, post.id]);
 
-  /**
-   * Query all posts with the same course_name to compute average rating
-   * and rating count. This runs once per post, or if `post.course_name` changes.
-   */
+  // average rating among all posts for this course_name
   useEffect(() => {
     if (!post.course_name) return;
-
     async function fetchCourseRating() {
       try {
         const q = query(
@@ -106,7 +100,6 @@ export default function Post({
         const snapshot = await getDocs(q);
         let total = 0;
         let count = 0;
-
         snapshot.forEach((doc) => {
           const data = doc.data();
           if (typeof data.rating === "number") {
@@ -114,7 +107,6 @@ export default function Post({
             count += 1;
           }
         });
-
         if (count > 0) {
           setCourseAvgRating(total / count);
           setCourseRatingCount(count);
@@ -122,12 +114,10 @@ export default function Post({
           setCourseAvgRating(0);
           setCourseRatingCount(0);
         }
-
       } catch (err) {
         console.error("Error fetching course average rating:", err);
       }
     }
-
     fetchCourseRating();
   }, [post.course_name]);
 
@@ -137,11 +127,9 @@ export default function Post({
       console.warn("Cannot like/unlike: user not signed in or missing uid.");
       return;
     }
-
     const docRef = doc(db, "users", user.uid);
     try {
       if (active) {
-        // unlike
         await updateDoc(docRef, {
           likedPosts: arrayRemove(post.id),
         });
@@ -149,7 +137,6 @@ export default function Post({
           Array.isArray(prev) ? prev.filter((id) => id !== post.id) : []
         );
       } else {
-        // like
         await updateDoc(docRef, {
           likedPosts: arrayUnion(post.id),
         });
@@ -187,7 +174,7 @@ export default function Post({
             src={avatarSrc}
           />
           <div className="post-user-info">
-            <div className="post-user-name">{userName}</div>
+            <div className="post-user-name">{displayName}</div>
             <div className="post-user-stars">{renderUserStars(userRating)}</div>
           </div>
         </div>
