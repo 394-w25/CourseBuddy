@@ -51,7 +51,7 @@ function CourseReviewPage({user, likedPosts, setLikedPosts}) {
                   user={user}
                   likedPosts={likedPosts}
                   setLikedPosts={setLikedPosts}
-                  isPublic={0}
+                  isPublic={post.anonymous}
                 />
               </div>
             ))
