@@ -74,7 +74,8 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
   }, [likedPosts, post.id]);
 
   async function handleLikedPost(e) {
-    e.stopPropagation(); // so we don't navigate to the comments when clicking heart
+    console.log("Clicked!")
+    //e.stopPropagation(); // so we don't navigate to the comments when clicking heart
     const docRef = doc(db, "users", user.uid);
 
     try {
