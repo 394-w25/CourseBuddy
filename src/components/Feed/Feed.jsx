@@ -93,8 +93,6 @@ function Feed({
           <CourseSelect searchFunc={setSearch} />
         </div>
 
-        <h1> sudfiu </h1>
-
         <Box>
           <Stack spacing={3}>
             {filteredPosts.length === 0 ? (
