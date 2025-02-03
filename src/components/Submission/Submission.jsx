@@ -44,13 +44,14 @@ function Submission({ userName }) {
       setFillInFields(true);
       return;
     }
-
+  
     try {
       const collectionRef = collection(db, 'posts');
       
       // subject + classNumber into a single "course_name"
       const courseName = subject + " " + classNumber; 
-
+  
+  
       const post = {
         title: title,
         course_name: courseName,
@@ -60,9 +61,13 @@ function Submission({ userName }) {
         professor: professor,
         username: userName.displayName,
         date: new Date(),
-        anonymous: (selectedButton === 'anonymous')
-      };
+        anonymous: (selectedButton === 'anonymous'),
+  
 
+       authorUid: userName.uid,
+       authorPhotoURL: userName.photoURL,
+      };
+  
       await addDoc(collectionRef, post);
       navigate('/feed');
       console.log('Post added!');
@@ -70,6 +75,7 @@ function Submission({ userName }) {
       console.error('Error adding post:', error);
     }
   }
+  
 
   return (
     <div>

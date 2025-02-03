@@ -6,7 +6,6 @@
   border-radius: 8px;
   background-color: #D9D9D9;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  cursor: pointer;
   overflow: hidden;
 }
 
@@ -168,18 +167,19 @@
 .post-icons {
   display: flex; 
   align-items: center; /* Vertically aligns the icons in the container */
-  padding: 0px;
+  padding: 5px;
   margin: 0px;
-  gap: 10px; /* Adds space between the icons */
+  gap: 20px; /* Adds space between the icons */
   justify-content: flex-end;
 }
 
-.post-icon {
+.comment-icon {
   display: inline-block;
-  font-size: 1.2rem !important; 
+  font-size: 1.3rem !important; 
   margin: 0;
   padding: 0;
   color: #666; /* Set icon color */
+  cursor: pointer;
 }
 
 .heart-icon {
@@ -191,5 +191,6 @@
   margin: 0; /* Remove margin */
   padding: 0; /* Remove padding */
   color: #666 !important;
+  cursor: pointer;
 }
 

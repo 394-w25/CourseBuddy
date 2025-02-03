@@ -55,7 +55,7 @@ function RatingHistory({ userName, filteredPost, setFilteredPost}) {
                     <Box paddingBottom="30px">
                         <Stack spacing={3}>
                             { filteredPost.length === 0 ?
-                                (<p>Loading posts...</p>) :
+                                (<p>You haven't made any posts</p>) :
                                 (filteredPost
                                     .slice()
                                     .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 

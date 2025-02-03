@@ -62,7 +62,7 @@ function LikedReviews({ userName, profilePic, likedPosts, setLikedPosts, filtere
                     <Box paddingBottom="30px">
                         <Stack spacing={3}>
                         { (!filteredLikedPosts || filteredLikedPosts.length === 0) ? (
-                                <p>Loading posts...</p>
+                                <p>You haven't liked any posts</p>
                             ) : (
                                 filteredLikedPosts
                                     .slice()

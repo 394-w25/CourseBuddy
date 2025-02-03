@@ -22,7 +22,16 @@ async function getPostsFromDB() {
   return posts;
 }
 
-function Feed({ user, friends, likedPosts, setLikedPosts }) {
+/**
+ * Safely default friends, likedPosts, and setLikedPosts 
+ * so that we never get “Cannot read property of undefined.”
+ */
+function Feed({
+  user,
+  friends = [],                // default to empty array if not provided
+  likedPosts = [],            // default to empty array
+  setLikedPosts = () => {}    // default to a no-op function
+}) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -41,24 +50,25 @@ function Feed({ user, friends, likedPosts, setLikedPosts }) {
     fetchPosts();
   }, []);
 
-  // 2) Filter posts by search or “friends” every time posts/search/tabValue/friends change
+  // 2) Filter posts by search or “friends” each time dependencies change
   useEffect(() => {
-    let filtered = posts;
+    let newFiltered = posts;
 
+    // Filter by search query in course_name
     if (search) {
-      filtered = filtered.filter(post =>
+      newFiltered = newFiltered.filter(post =>
         post.course_name?.toLowerCase().includes(search.toLowerCase())
       );
     }
 
+    // If tabValue === 1, show only “friends’” posts
     if (tabValue === 1) {
-      // “Friends” tab only shows posts by people in the `friends` array
-      filtered = filtered.filter(post =>
+      newFiltered = newFiltered.filter(post =>
         friends.some(friend => friend.displayName === post.username)
       );
     }
 
-    setFilteredPosts(filtered);
+    setFilteredPosts(newFiltered);
   }, [search, posts, tabValue, friends]);
 
   const handleChange = (event, newValue) => {
@@ -80,7 +90,6 @@ function Feed({ user, friends, likedPosts, setLikedPosts }) {
 
       <Container className="feed-content" maxWidth="sm">
         <div className="course-select-wrapper">
-          {/* The search box you have (CourseSelect) */}
           <CourseSelect searchFunc={setSearch} />
         </div>
 
@@ -88,7 +97,7 @@ function Feed({ user, friends, likedPosts, setLikedPosts }) {
           <Stack spacing={3}>
             {filteredPosts.length === 0 ? (
               <Typography className="no-friends-text" variant="h4">
-                Your friends have not reviewed any courses yet. 
+                Your friends have not reviewed any courses yet.
                 Add more friends to see some posts!
               </Typography>
             ) : (
