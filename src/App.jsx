@@ -128,7 +128,7 @@ function App() {
           ) : (
             <Route path="/" element={<Feed friends={friends} />} />
           )}
-          <Route path="/feed" element={isAuthenticated ? <Feed user={user.uid} friends={friends} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
+          <Route path="/feed" element={isAuthenticated ? <Feed user={user} friends={friends} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="/submission" element={isAuthenticated ? <Submission userName={user} /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <SearchPage userUID={user.uid} /> : <Navigate to="/" />} />
           <Route 
