@@ -22,6 +22,7 @@ import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from './utilities/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { set } from 'firebase/database';
+import CourseReviewPage from './components/CourseReviewPage/CourseReviewPage';
 
 // Toggle this to `true` in dev if you want to skip sign-in
 const DEV_MODE = false;
@@ -149,6 +150,7 @@ function App() {
           <Route path="/rating-history" element={isAuthenticated ? <RatingHistory userName={user} filteredPost={filteredPost} setFilteredPost={setFilteredPost} likedPosts={likedPosts} setLikedPosts={setLikedPosts}/> : <Navigate to="/" />} />
           <Route path="/comment/:post_id" element={isAuthenticated ? <Comment userName={user} profilePic={profilePic} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="/liked-reviews" element={isAuthenticated ? <LikedReviews userName={user} profilePic={profilePic} likedPosts={likedPosts} setLikedPosts={setLikedPosts} filteredLikedPosts={filteredLikedPosts} setFilteredLikedPosts={setFilteredLikedPosts}/> : <Navigate to="/" />} />
+          <Route path="/course/*"  element={isAuthenticated ? <CourseReviewPage user={user} likedPosts={likedPosts} setLikedPosts={setLikedPosts} /> : <Navigate to="/" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

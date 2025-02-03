@@ -152,12 +152,14 @@ export default function Post({
 
   return (
     <div className="post-wrapper">
-      <div
-        className="post-top-bar"
-        style={{ backgroundColor: getCourseColor(post.course_name) }}
-      >
-        <h3 className="post-course-name">{post.course_name}</h3>
-      </div>
+      <a className="class-page-link-button" href={`/course/${post.course_name.replace(/\s/g,'')}`}>
+        <div
+          className="post-top-bar"
+          style={{ backgroundColor: getCourseColor(post.course_name) }}
+        >
+          <h3 className="post-course-name">{post.course_name}</h3>
+        </div>
+      </a>
 
       <div className="post-body-container">
         <div className="post-chips-row">
