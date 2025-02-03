@@ -68,8 +68,8 @@ function Post({ user, post, isPublic, likedPosts, setLikedPosts }) {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (likedPosts.includes(post.id)) {
-      setActive(true);
+    if (Array.isArray(likedPosts) && likedPosts.includes(post.id)) {
+        setActive(true);
     }
   }, [likedPosts, post.id]);
 
