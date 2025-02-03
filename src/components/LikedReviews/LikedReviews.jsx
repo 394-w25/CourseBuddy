@@ -7,7 +7,7 @@ import NavigationBar from '../NavigationBar/NavigationBar';
 import { useEffect } from 'react';
 
 
-function LikedReviews({ userName, profilePic, likedPosts, setLikedPosts, filteredLikedPosts, setFilteredLikedPosts }) {
+function LikedReviews({ userName, likedPosts, setLikedPosts, filteredLikedPosts, setFilteredLikedPosts }) {
 
     async function getPostsFromDB() {
         try {

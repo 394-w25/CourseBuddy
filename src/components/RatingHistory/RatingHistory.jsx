@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import { useState, useEffect } from 'react';
 
 
-function RatingHistory({ userName, filteredPost, setFilteredPost}) {
+function RatingHistory({ userName, filteredPost, setFilteredPost, likedPosts, setLikedPosts}) {
 
     const fake_friends = ["Alice", "Bob", "Charlie", "David"];
  // Add userName as a dependency to prevent it from running infinitely    
@@ -47,7 +47,6 @@ function RatingHistory({ userName, filteredPost, setFilteredPost}) {
         <div>
             <AppBar />
             <Container>
-
                 <Container maxWidth="xs" style={{ textAlign: 'center', paddingTop: '20px' }}>
                 </Container>
 
@@ -58,10 +57,19 @@ function RatingHistory({ userName, filteredPost, setFilteredPost}) {
                                 (<p>You haven't made any posts</p>) :
                                 (filteredPost
                                     .slice()
-                                    .sort((a, b) => b.date.seconds - a.date.seconds).map((post) => 
-                                    <div key={post.id}>
-                                    <Post post={post} friends={fake_friends} postAnonymously={false}/>
-                                    </div>)
+                                    .sort((a, b) => b.date.seconds - a.date.seconds)
+                                    .map((post) => 
+                                      <div key={post.id}>
+                                        <Post
+                                          post={post}
+                                          friends={fake_friends}
+                                          postAnonymously={false}
+                                          user={userName}
+                                          likedPosts={likedPosts}  
+                                          setLikedPosts={setLikedPosts}
+                                        />
+                                      </div>
+                                    )
                                 )
                             }
                         </Stack>
