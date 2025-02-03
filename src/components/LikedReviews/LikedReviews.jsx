@@ -72,7 +72,7 @@ function LikedReviews({ userName, likedPosts, setLikedPosts, filteredLikedPosts,
                                             <Post 
                                                 user={userName} 
                                                 post={post} 
-                                                isPublic={0} 
+                                                isPublic={post.anonymous} 
                                                 likedPosts={likedPosts} 
                                                 setLikedPosts={setLikedPosts}
                                             />
