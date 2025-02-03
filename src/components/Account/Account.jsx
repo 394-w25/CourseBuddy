@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Button, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection, getDocs } from 'firebase/firestore';
 import { db } from '../../utilities/firebase';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
@@ -18,6 +18,7 @@ function Account({
 }) {
   const navigate = useNavigate();
   const [friendCount, setFriendCount] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
 
   const signOut = () => {
     navigate("/");
@@ -34,6 +35,23 @@ function Account({
     return () => unsub();
   }, [userName]);
 
+  // Checks posts database to find the number of user posts
+  useEffect(() => {
+    if (!userName?.displayName) return;
+
+    async function fetchUserReviews() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const userPosts = querySnapshot.docs.filter(doc => doc.data().username === userName.displayName);
+        setReviewCount(userPosts.length);
+      } catch (error) {
+        console.error("Error fetching user reviews:", error);
+      }
+    }
+
+    fetchUserReviews();
+  }, [userName]);
+
   return (
     <div className="account-page">
       <AppBar />
@@ -46,7 +64,7 @@ function Account({
                 className="stat-block"
                 onClick={() => navigate('/rating-history')}
               >
-                <span className="stat-number">{filteredPost.length}</span>
+                <span className="stat-number">{reviewCount}</span>
                 <span className="stat-label">Reviews</span>
               </div>
               <div
