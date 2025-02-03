@@ -70,7 +70,7 @@ function LikedReviews({ userName, profilePic, likedPosts, setLikedPosts, filtere
                                     .map((post) => (
                                         <div key={post.id}>
                                             <Post 
-                                                user={userName?.uid} 
+                                                user={userName} 
                                                 post={post} 
                                                 isPublic={0} 
                                                 likedPosts={likedPosts} 
