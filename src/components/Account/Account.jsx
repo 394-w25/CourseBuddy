@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Button, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { doc, onSnapshot, collection, getDocs } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
 import { db } from '../../utilities/firebase';
 import AppBar from '../AppBar/AppBar';
 import NavigationBar from '../NavigationBar/NavigationBar';
@@ -39,18 +39,18 @@ function Account({
   useEffect(() => {
     if (!userName?.displayName) return;
 
-    async function fetchUserReviews() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "posts"));
-        const userPosts = querySnapshot.docs.filter(doc => doc.data().username === userName.displayName);
-        setReviewCount(userPosts.length);
-      } catch (error) {
+    const unsubscribe = onSnapshot(
+      query(collection(db, "posts"), where("username", "==", userName.displayName)),
+      (snapshot) => {
+        setReviewCount(snapshot.size); 
+      },
+      (error) => {
         console.error("Error fetching user reviews:", error);
       }
-    }
+    );
 
-    fetchUserReviews();
-  }, [userName]);
+    return () => unsubscribe();
+}, [userName]);
 
   return (
     <div className="account-page">
