@@ -190,7 +190,7 @@ export default function Post({
         <div className="post-bottom-row">
           <div className="post-course-ratings">
             <div className="post-course-ratings-label">
-              <strong>{abbreviateCount(courseRatingCount)}</strong> ratings for {post.course_name}
+              <strong>{abbreviateCount(courseRatingCount)}</strong> rating{courseRatingCount !== 1 ? "s" : "" } for {post.course_name}
             </div>
             <div className="post-course-stars">
               {renderCourseStars(courseAvgRating)}
